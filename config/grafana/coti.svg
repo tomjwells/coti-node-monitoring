@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 52.5 52.5" style="enable-background:new 0 0 52.5 52.5;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#0C041E;}
+	.st1{fill:url(#SVGID_1_);}
+	.st2{fill:url(#SVGID_2_);}
+	.st3{fill:#194AAD;}
+</style>
+<title>coti_logo_color</title>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="19.7165" y1="17.536" x2="13.8877" y2="50.5693" gradientTransform="matrix(1 0 0 -1 0 54)">
+	<stop offset="0.1" style="stop-color:#194AAD"/>
+	<stop offset="0.5" style="stop-color:#248FCB"/>
+	<stop offset="0.8" style="stop-color:#2BBFDF"/>
+</linearGradient>
+<path class="st1" d="M1.3,16.4c-0.9,0-1.3,0.4-1.3,1.2c0,0,0,18,0,20.6c0,0.9,0.4,1.2,1.3,1.2c9.9,0.1,22-8.7,32-15.6L33.3,0  C23.4,6.8,11,16.5,1.3,16.4z"/>
+<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="1810.073" y1="325.6888" x2="1817.7822" y2="369.4051" gradientTransform="matrix(-1 0 0 1 1851.79 -325.17)">
+	<stop offset="0.1" style="stop-color:#194AAD"/>
+	<stop offset="0.5" style="stop-color:#248FCB"/>
+	<stop offset="0.8" style="stop-color:#2BBFDF"/>
+</linearGradient>
+<path class="st2" d="M53.4,25.7c0.9,0,1.3-0.4,1.3-1.2c0,0,0-18,0-20.6c0-0.9-0.4-1.2-1.3-1.2c-10-0.1-22,8.7-32,15.6V42  C31.3,35.2,43.7,25.5,53.4,25.7z"/>
+<path class="st3" d="M33.3,23.8V10.2c-4.1,2.6-8.2,5.4-12,8v13.6C25.5,29.2,29.5,26.4,33.3,23.8z"/>
+</svg>

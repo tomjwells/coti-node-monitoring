@@ -1,0 +1,110 @@
+# Backup
+
+version: '3'
+
+networks:
+  default:
+    name: gateway
+    external: true
+    driver: bridge
+
+volumes:
+  grafana:
+  prometheus:
+
+services:
+  grafana:
+    container_name: grafana
+    labels:
+      traefik.frontend.rule: monitoring.${SERVERNAME}" # Necessary
+      # SSL redirect requires a separate router (https://github.com/containous/traefik/issues/4688#issuecomment-477800500)
+      traefik.http.routers.grafana.entryPoints: port80
+      traefik.http.routers.grafana.rule: host(`monitoring.${SERVERNAME}`)
+      traefik.http.middlewares.grafana-redirect.redirectScheme.scheme: https
+      traefik.http.middlewares.grafana-redirect.redirectScheme.permanent: true
+      traefik.http.routers.grafana.middlewares: grafana-redirect
+      # SSL endpoint
+      traefik.http.routers.grafana-ssl.entryPoints: port443
+      traefik.http.routers.grafana-ssl.rule: host(`monitoring.${SERVERNAME}`)
+      traefik.http.routers.grafana-ssl.tls: true
+      traefik.http.routers.grafana-ssl.tls.certResolver: le-ssl
+      traefik.http.routers.grafana-ssl.service: grafana-ssl
+      traefik.http.services.grafana-ssl.loadBalancer.server.port: 3000
+    image: grafana/grafana:latest
+    user: '0'
+    volumes:
+      - grafana:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+      - ./config/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./config/grafana/coti.svg:/usr/share/grafana/public/img/grafana_icon.svg:rw
+      - ./config/grafana/favicon.png:/usr/share/grafana/public/img/fav32.png
+    environment:
+      # Note: may need to rm (refresh) the grafana volume when changing these
+      GF_SERVER_DOMAIN: monitoring.${SERVERNAME}
+      GF_SERVER_ROOT_URL: https://monitoring.${SERVERNAME}
+      GF_SECURITY_ADMIN_USER: ${EMAIL}
+      GF_SECURITY_ADMIN_PASSWORD: ${PKEY}
+      GF_USERS_ALLOW_SIGN_UP: false
+      GF_INSTALL_PLUGINS: yesoreyeram-infinity-datasource
+    depends_on:
+      - prometheus
+    networks:
+      - default
+
+  loki:
+    container_name: loki
+    image: grafana/loki:latest
+    volumes:
+      - ./config/loki:/etc/loki
+    ports:
+      - '3100:3100'
+    restart: unless-stopped
+    command: -config.file=/etc/loki/config.yaml
+
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:2.7.2
+    volumes:
+      - /var/log:/var/log
+      - ./config/promtail:/etc/promtail
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/config.yaml
+
+  nodeexporter:
+    image: prom/node-exporter:v0.18.1
+    container_name: nodeexporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    restart: unless-stopped
+    expose:
+      - 9100
+
+  prometheus:
+    image: prom/prometheus:v2.41.0
+    container_name: prometheus
+    volumes:
+      - ./config/prometheus:/etc/prometheus
+      # - prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    # labels:
+    #   - "traefik.docker.network=traefik"
+    #   - "traefik.backend=prometheus"
+    #   - "traefik.port=9090"
+    restart: unless-stopped
+    expose:
+      - 9090
+    # networks:
+    #   - default
