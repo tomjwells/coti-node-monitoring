@@ -10,15 +10,14 @@
 
 <p align="center"><a href="https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s"><img src="https://media.discordapp.net/attachments/995792094088155227/1070497353968128041/Screenshot_2023-02-02_at_00.14.12.png?width=1493&height=825" width="100%" /></a></p><br/>
 
-To see a live example dashboard from this setup, [click here](https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s).
+[Click to see a live example of a dashboard produced from this setup](https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s).
 
 This method provides:
 
-- A grafana dashboard system, accessible at `monitoring.<your-node-url>`
+- A <a href="https://github.com/grafana/grafana" target="_blank">Grafana</a> dashboard visualisation system, accessible at `monitoring.<your-node-url>`
 - Automatic SSL certificate management for the new subdomain
 - Server monitoring and health statistics with <a href="https://prometheus.io/docs/introduction/overview/" target="_blank">Prometheus</a>
-- Log tracking and filtering with <a href="https://github.com/grafana/loki" target="_blank">Loki</a>
-- Dashboard visualisation and management system with <a href="https://github.com/grafana/grafana" target="_blank">Grafana</a>
+- Log tracking and querying with <a href="https://github.com/grafana/loki" target="_blank">Loki</a>
 
 # Installation Instructions
 
@@ -36,6 +35,16 @@ docker-compose down
 
 which safely brings down your node.
 
+## DNS Settings
+
+The monitoring system is set up to be accessed from the url `https://monitoring.<your-node-url>`. If you have not set up a subdomain record with your DNS provider, it is likely you will need to do this to make that url accessible.
+
+To do this, you can either add a wildcard subdomain (`*`), or the specific subdomain you intend to set up (`monitoring.`). In my case I went with a wildcard subdomain, and my working DNS configuration looks like
+
+![Wildcard subdomain example](https://media.discordapp.net/attachments/995792094088155227/1070766780181659668/Screenshot_2023-02-02_at_18.04.48.png)
+
+where the IP address is the IP address for your server.
+
 ## 1. Clone the Repository
 
 For organizational purposes, I suggest having your Coti node located under the directory `~/coti-node`. We will install the monitoring setup alongside that directory, under `~/coti-node-monitoring`.
@@ -48,7 +57,7 @@ cd ~ && git clone https://github.com/tj-wells/coti-node-monitoring.git && cd cot
 
 Loki is a log aggregation system that stores and queries logs from your applications. Loki needs special access to Docker's internals to collect logs from the container running inside Docker. Loki's way of obtaining this access is by means of a Docker plugin.
 
-I have included a script `install_loki_plugin.sh` to automatically install and configure the plugin. If it does not work, please let me know, or you can read the script and try to follow it's steps.
+I have included a script `install_loki_plugin.sh` to automatically install and configure the plugin. If it does not work, please let me know, or you can read the script and try to follow its steps.
 
 The script requires sudo priviliges, so run
 
@@ -71,7 +80,7 @@ You may want to perform this process with two terminal sessions open. In one ter
 
 ## Step 1) Run the Coti Node
 
-This setup uses a Docker network called `gateway` (that we create) to communicate between the two projects. You can check if this network exists on your system using `docker network ls`. If it exists, you don't need to do anything. If it does not exist, it can be created with `docker network create --driver=bridge --attachable --internal=false gateway`. Or, in one line:
+This setup uses a Docker network called `gateway` (that we create) to communicate between the two projects. You can check if this network exists on your system using `docker network ls`. If it exists, you needn't do anything. If it does not exist, it can be created with `docker network create --driver=bridge --attachable --internal=false gateway`. Or, in one line:
 
 ```
 [[ $(docker network ls) == *"gateway"* ]] && docker network create --driver=bridge --attachable --internal=false gateway
@@ -125,7 +134,7 @@ Out of the box features
 - Dashboards:
   - `Coti Public Dashboard` - a publicly sharable dashboard. ([Example](https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s))
     - ![img](https://media.discordapp.net/attachments/995792094088155227/1070709166404022344/Screenshot_2023-02-02_at_14.15.31.png?width=1589&height=825)
-  - `Coti Private Dashboard` - a dashboard which has a bit more information that cannot be shared
+  - `Coti Private Dashboard` - a dashboard which has a bit more information
     - ![img](https://media.discordapp.net/attachments/995792094088155227/1070497353968128041/Screenshot_2023-02-02_at_00.14.12.png?width=1493&height=825)
 - Grafana Datasources:
   - <a href="https://prometheus.io/docs/visualization/grafana/" target="_blank">Prometheus</a>
@@ -163,15 +172,15 @@ This installation method is stable and works well, but it is far from perfect. T
 
 - Fixing any bugs
 - Configuring alerts (e.g. based on RAM usage, CPU usage, and response times)
-- More sophisticated dashboards that take better advantage of the information specific to Coti nodes
+- More sophisticated dashboards that take better advantage of the unique information available from Coti nodes
 - Monitoring traefik
 
-If you are interested in contributing to any of these, I would happily take suggestions or code submissions,
+If you are interested in contributing to any of these, I would happily take suggestions or code submissions, or give access to this repository to collaborators.
 
 # ✨ Credits
 
 - Credits to the Coti community for the vital support and guidance given to testnet and mainnet node operators.
-- Credits to all the companies who contribute open-source software, making all this possible for free. Namely Docker, Grafana and Traefik.
+- Credits to all the organizations who contribute open-source software, making all this possible for free. Namely Docker, Grafana and Traefik.
 
 # STAY COTI
 
