@@ -5,7 +5,7 @@
 
 <p align="center">
 	<a href="https://github.com/tj-wells/coti-node-monitoring"><img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/tj-wells/coti-node-monitoring"></a>
-    <a href="https://twitter.com/intent/tweet?text=I+just+installed+my+%23COTI+node+with+%40tomjwells%27+Docker+installation+method.+It+worked+like+a+charm%21+%F0%9F%94%A5%0D%0A%0D%0Ahttps%3A%2F%2Fgithub.com%2Ftj-wells%2Fcoti-node%0D%0A%0D%0A%24COTI+%24DJED+%24SHEN+"><img src="https://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
+    <a href="https://twitter.com/intent/tweet?text=I%20just%20installed%20%24COTI%20node%20monitoring%20with%20%40tomjwells%27%20Docker%20installation%20method.%20It%20worked%20like%20a%20charm%21%20and%20looks%20great%0A%0A%F0%9F%94%A5%0A%0Ahttps%3A%2F%2Fgithub.com%2Ftj-wells%2Fcoti-node-monitoring%0A%0A%23COTI%20%24DJED%20%24SHEN%20%20"><img src="https://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
 </p><br/>
 
 <p align="center"><a href="https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s"><img src="https://media.discordapp.net/attachments/995792094088155227/1070497353968128041/Screenshot_2023-02-02_at_00.14.12.png?width=1493&height=825" width="100%" /></a></p><br/>
@@ -78,7 +78,7 @@ cp ~/coti-node/.env .
 
 You may want to perform this process with two terminal sessions open. In one terminal you can run the Coti node, and in the other you will run the monitoring stack.
 
-## Step 1) Create a Network (if needed)
+## Step 1) Set up a Network
 
 This setup uses a Docker network called `gateway` (that we create) to communicate between the two projects. You can check if this network exists on your system using `docker network ls`. If it exists, you needn't do anything. If it does not exist, it can be created with `docker network create --driver=bridge --attachable --internal=false gateway`. Or, in one line:
 
@@ -95,7 +95,7 @@ In your first terminal, navigate to your Coti node directory, and run the contai
 docker-compose up --force-recreate
 ```
 
-It is only necessary to use the `--force-recreate` option the first time after installing the Loki plugin. Every other time, you can simply use
+The `--force-recreate` option is only needed the first time after installing the Loki plugin. Every other time, you can simply use
 
 ```
 docker-compose up
@@ -111,9 +111,9 @@ Now you are ready to run the monitoring stack! In the second terminal, change to
 docker-compose up
 ```
 
-This will download and install the monitoring software for you, and configure all the networking. If everything goes successfully, you are done.
+This will download and install the monitoring software for you, . If everything goes successfully, you are done.
 
-Grafana typically takes between 5-20 seconds to become ready, so after a few seconds, navigate in your browser to `monitoring.<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
+Grafana usually takes between 10-30 seconds to become ready, so after a few seconds, navigate in your browser to `monitoring.<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
 
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504105056948244/Screenshot_2023-02-02_at_00.40.57.png?width=1445&height=825"/>
 
@@ -168,14 +168,14 @@ This section will be used to answer common debugging problems related to this in
 
 # Contributing
 
-This installation method is stable and works well, but it is far from perfect. There are some improvements that could be made that I have not had time to explore. Some of these are
+This installation method is stable and works well in my tests, but it is far from perfect. I have many ideas for improvements that I have not explored. Some of these are
 
 - Fixing any bugs
 - Configuring alerts (e.g. based on RAM usage, CPU usage, and response times)
 - More sophisticated dashboards that take better advantage of the unique information available from Coti nodes
-- Monitoring traefik
+- Monitoring traefik (the web server)
 
-If you are interested in contributing to any of these, I would happily take suggestions or code submissions, or give access to this repository to collaborators.
+If you are interested in contributing to any of these, I would happily take suggestions or code submissions, or make this repository accessible to collaborators.
 
 # ✨ Credits
 
