@@ -47,17 +47,17 @@ where the IP address is the IP address for your server.
 
 ## 1. Clone the Repository
 
-For organizational purposes, I suggest having your Coti node located under the directory `~/coti-node`. We will install the monitoring setup alongside that directory, under `~/coti-node-monitoring`.
+For organizational purposes, I suggest having your Coti node located under the directory `~/coti-node`. We will install the monitoring setup alongside that directory, under `~/coti-node-monitoring`. From your home directory, run
 
 ```
-cd ~ && git clone https://github.com/tj-wells/coti-node-monitoring.git && cd coti-node-monitoring
+git clone https://github.com/tj-wells/coti-node-monitoring.git && cd coti-node-monitoring
 ```
 
 ## 2. Install the Loki plugin
 
 Loki is a log aggregation system that stores and queries logs from your applications. Loki needs special access to Docker's internals to collect logs from the container running inside Docker. Loki's way of obtaining this access is by means of a Docker plugin.
 
-I have included a script `install_loki_plugin.sh` to automatically install and configure the plugin. If it does not work, please let me know, or you can read the script and try to follow its steps.
+I have included a script `install_loki_plugin.sh` to automatically install the plugin. If it does not work, please let me know, or you can read the script and try to follow its steps.
 
 The script requires sudo priviliges, so run
 
@@ -78,7 +78,7 @@ cp ~/coti-node/.env .
 
 You may want to perform this process with two terminal sessions open. In one terminal you can run the Coti node, and in the other you will run the monitoring stack.
 
-## Step 1) Run the Coti Node
+## Step 1) Create a Network (if needed)
 
 This setup uses a Docker network called `gateway` (that we create) to communicate between the two projects. You can check if this network exists on your system using `docker network ls`. If it exists, you needn't do anything. If it does not exist, it can be created with `docker network create --driver=bridge --attachable --internal=false gateway`. Or, in one line:
 
@@ -113,11 +113,11 @@ docker-compose up
 
 This will download and install the monitoring software for you, and configure all the networking. If everything goes successfully, you are done.
 
-Grafana typically takes between 5-20 seconds to become ready, so after a few seconds, navigate in your browser to `monitoring.\<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
+Grafana typically takes between 5-20 seconds to become ready, so after a few seconds, navigate in your browser to `monitoring.<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
 
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504105056948244/Screenshot_2023-02-02_at_00.40.57.png?width=1445&height=825"/>
 
-Your sign-in credentials are taken from the `.env` file. Use your `EMAIL` as your username, and `PKEY` as your password.
+Your sign-in credentials come from the `.env` file. Use your `EMAIL` as your username, and `PKEY` as your password.
 
 If you see the following welcome screen:
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504686387478598/Screenshot_2023-02-02_at_00.43.14.png?width=1802&height=825"/>

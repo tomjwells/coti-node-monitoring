@@ -11,6 +11,7 @@ networks:
 volumes:
   grafana:
   prometheus:
+  postgres:
 
 services:
   grafana:
@@ -46,8 +47,16 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: ${PKEY}
       GF_USERS_ALLOW_SIGN_UP: false
       GF_INSTALL_PLUGINS: yesoreyeram-infinity-datasource
+      # DB Config
+      GF_DATABASE_TYPE: postgres
+      GF_DATABASE_HOST: postgres:5432
+      GF_DATABASE_NAME: grafana
+      GF_DATABASE_USER: postgres
+      GF_DATABASE_PASSWORD: internal_password
+      GF_DATABASE_SSL_MODE: disable
     depends_on:
       - prometheus
+      - postgres
     networks:
       - default
 
@@ -108,3 +117,16 @@ services:
       - 9090
     # networks:
     #   - default
+
+  # DB for Grafana
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: grafana
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: internal_password
