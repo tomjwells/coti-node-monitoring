@@ -8,9 +8,9 @@
     <a href="https://twitter.com/intent/tweet?text=I%20just%20installed%20%24COTI%20node%20monitoring%20with%20%40tomjwells%27%20Docker%20installation%20method.%20It%20worked%20like%20a%20charm%21%20and%20looks%20great%0A%0A%F0%9F%94%A5%0A%0Ahttps%3A%2F%2Fgithub.com%2Ftj-wells%2Fcoti-node-monitoring%0A%0A%23COTI%20%24DJED%20%24SHEN%20%20"><img src="https://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
 </p><br/>
 
-<p align="center"><a href="https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s"><img src="https://media.discordapp.net/attachments/995792094088155227/1070497353968128041/Screenshot_2023-02-02_at_00.14.12.png?width=1493&height=825" width="100%" /></a></p><br/>
+<p align="center"><a href="https://public.testnet.atomnode.tomoswells.com"><img src="https://media.discordapp.net/attachments/995792094088155227/1070497353968128041/Screenshot_2023-02-02_at_00.14.12.png?width=1493&height=825" width="100%" /></a></p><br/>
 
-[Click to see a live example of a dashboard produced from this setup](https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s).
+[Click to see a live example of a dashboard produced from this setup](https://public.testnet.atomnode.tomoswells.com).
 
 This method provides:
 
@@ -129,7 +129,7 @@ I wish to cover some of the features that come out-of-the-box with this installa
 Out of the box features
 
 - Dashboards:
-  - `Coti Public Dashboard` - a publicly sharable dashboard. ([Example](https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s))
+  - `Coti Public Dashboard` - a publicly sharable dashboard. ([Example](https://public.testnet.atomnode.tomoswells.com))
     - ![img](https://media.discordapp.net/attachments/995792094088155227/1070709166404022344/Screenshot_2023-02-02_at_14.15.31.png?width=1589&height=825)
   - `Coti Private Dashboard` - a dashboard which has a bit more information
     - ![img](https://media.discordapp.net/attachments/995792094088155227/1070497353968128041/Screenshot_2023-02-02_at_00.14.12.png?width=1493&height=825)
