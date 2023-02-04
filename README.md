@@ -14,20 +14,20 @@
 
 This method provides:
 
-- A <a href="https://github.com/grafana/grafana" target="_blank">Grafana</a> dashboard visualisation system, accessible at `monitoring.<your-node-url>`
+- A <a href="https://github.com/grafana/grafana" target="_blank">Grafana</a> dashboard visualisation system, accessible at `https://monitoring.<your-node-url>`
 - Automatic SSL certificate management for the new subdomain
 - Server monitoring and health statistics with <a href="https://prometheus.io/docs/introduction/overview/" target="_blank">Prometheus</a>
 - Log tracking and querying with <a href="https://github.com/grafana/loki" target="_blank">Loki</a>
 
 # Installation Instructions
 
-This guide assumes that your Coti node is installed using Docker. If you are yet to do this, I suggest following my <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a> before setting up your monitoring. This guide also assumes you have the following programs installed:
+This guide assumes that your node has been installed using Docker. If you are yet to do this, I suggest checking out my <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a> before installing any monitoring. This guide also assumes you have the following programs installed:
 
 - Docker
 - docker-compose
 - git
 
-Before beginning, you should take down your node, as one of the steps requires a restart of Docker. If your node is installed with Docker, do this by navigating to your directory where your docker-compose file is located, and run
+Before beginning, you should bring down your node, since one of the steps requires a restart of Docker. For nodes installed with Docker, do this by navigating to your directory where your docker-compose file is located, and run
 
 ```
 docker-compose down
@@ -47,7 +47,7 @@ where the IP address is the IP address for your server.
 
 ## 1. Clone the Repository
 
-For organizational purposes, I suggest having your Coti node located under the directory `~/coti-node`. We will install the monitoring setup alongside that directory, under `~/coti-node-monitoring`. From your home directory, run
+To keep things organized, I suggest having your Coti node located under the directory `~/coti-node`. We will install the monitoring setup alongside that directory, under `~/coti-node-monitoring`. From your home directory, run
 
 ```
 git clone https://github.com/tj-wells/coti-node-monitoring.git && cd coti-node-monitoring
@@ -68,11 +68,21 @@ install_loki_plugin.sh
 
 ## 3. Create a `.env` File
 
-The same `.env` file that was used to install your node can be used to install the monitoring. If your node was installed at `~/coti-node`, you can run
+The `.env` file defines important environment variables used to set up the monitoring. Create a `.env` file in the `coti-node-monitoring` directory, enter your environment variables in the following format:
 
+```.env
+SERVERNAME=<your-node-domain.tld>
+GRAFANA_USERNAME=<Choose a username here>
+GRAFANA_PASSWORD=<Choose a password here>
 ```
-cp ~/coti-node/.env .
-```
+
+where
+
+- `SERVERNAME` is the web address of your node, excluding `http(s)://` and `www.`, for example `subdomain.your-node-domain.tld`,
+- `GRAFANA_USERNAME` is the username you wish to use to login to the Grafana dashboard, and,
+- `GRAFANA_PASSWORD` is the password you wish to use to login to the Grafana dashboard.
+
+If you are unsure about a username, you can use your email associated with your Coti node (or make one up). [Click here for a simple password generator](https://bitwarden.com/password-generator/)
 
 # 🏃 Running the Monitoring Stack
 
@@ -142,7 +152,7 @@ Out of the box features
 
 While the dashboards are more immediately useful, the preconfigured Grafana datasources will allow you to create your own queries and graphs.
 
-# Useful Docker Management Commands
+<!-- # Useful Docker Management Commands
 
 Take down a single container:
 
@@ -160,20 +170,33 @@ Restart an individual container:
 
 ```
 docker restart <container_name>
-```
+``` -->
 
 # 🧑‍💻 Debugging
 
 This section will be used to answer common debugging problems related to this installation process.
 
+<details>
+    <summary>I get HTTPS errors or strange connectivity problems even though everything is set up correctly</summary>
+In creating this setup, I found that sometimes I would get intermittent problems with connecting via HTTPS. In debugging, I found that destroying and recreating the `gateway` network would fix this. My suspicion is this is a slight bug/incompatability in Docker, but I am not 100% clear the cause.<br/>
+    Whenever I had these issues, I was able to solve them by running
+    <ul>
+      <li>docker network rm gateway && docker network create   --driver=bridge   --attachable   --internal=false   gateway && docker-compose down && docker-compose up</li>
+    </ul>
+    which at once recreates the network and recreates your docker-compose setup.
+
+<br/>
+<br/>
+</details>
+
 # Contributing
 
-This installation method is stable and works well in my tests, but it is far from perfect. I have many ideas for improvements that I have not explored. Some of these are
+This installation method is stable and works well in my tests, but it is far from perfect. I have many ideas for improvements that are not explored. Some of these are
 
 - Fixing any bugs
 - Configuring alerts (e.g. based on RAM usage, CPU usage, and response times)
 - More sophisticated dashboards that take better advantage of the unique information available from Coti nodes
-- Monitoring traefik (the web server)
+- Monitoring traefik (the web server) and charting response times
 
 If you are interested in contributing to any of these, I would happily take suggestions or code submissions, or make this repository accessible to collaborators.
 

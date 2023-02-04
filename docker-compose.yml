@@ -33,6 +33,7 @@ services:
       traefik.http.services.grafana-ssl.loadBalancer.server.port: 3000
     image: grafana/grafana:latest
     user: '0'
+    restart: unless-stopped
     volumes:
       - grafana:/var/lib/grafana
       - ./config/grafana/provisioning:/etc/grafana/provisioning
@@ -43,8 +44,8 @@ services:
       # Note: may need to rm (refresh) the grafana volume when changing these
       GF_SERVER_DOMAIN: monitoring.${SERVERNAME}
       GF_SERVER_ROOT_URL: https://monitoring.${SERVERNAME}
-      GF_SECURITY_ADMIN_USER: ${EMAIL}
-      GF_SECURITY_ADMIN_PASSWORD: ${PKEY}
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USERNAME}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
       GF_USERS_ALLOW_SIGN_UP: false
       GF_INSTALL_PLUGINS: yesoreyeram-infinity-datasource
       # DB Config
@@ -100,7 +101,7 @@ services:
     container_name: prometheus
     volumes:
       - ./config/prometheus:/etc/prometheus
-      # - prometheus:/prometheus
+      # - prometheus:/prometheus # Makes lose data when you destroy containers
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
