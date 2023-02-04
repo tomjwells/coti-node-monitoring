@@ -66,19 +66,21 @@ services:
     image: grafana/loki:latest
     volumes:
       - ./config/loki:/etc/loki
-    ports:
-      - '3100:3100'
     restart: unless-stopped
     command: -config.file=/etc/loki/config.yaml
 
   promtail:
     container_name: promtail
-    image: grafana/promtail:2.7.2
+    image: grafana/promtail:latest
     volumes:
       - /var/log:/var/log
       - ./config/promtail:/etc/promtail
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     command: -config.file=/etc/promtail/config.yaml
+    depends_on:
+      - loki
 
   nodeexporter:
     image: prom/node-exporter:v0.18.1
@@ -93,8 +95,6 @@ services:
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
     restart: unless-stopped
-    expose:
-      - 9100
 
   prometheus:
     image: prom/prometheus:v2.41.0
@@ -109,15 +109,7 @@ services:
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--storage.tsdb.retention.time=200h'
       - '--web.enable-lifecycle'
-    # labels:
-    #   - "traefik.docker.network=traefik"
-    #   - "traefik.backend=prometheus"
-    #   - "traefik.port=9090"
     restart: unless-stopped
-    expose:
-      - 9090
-    # networks:
-    #   - default
 
   # DB for Grafana
   postgres:

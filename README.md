@@ -53,27 +53,14 @@ To keep things organized, I suggest having your Coti node located under the dire
 git clone https://github.com/tj-wells/coti-node-monitoring.git && cd coti-node-monitoring
 ```
 
-## 2. Install the Loki plugin
-
-Loki is a log aggregation system that stores and queries logs from your applications. Loki needs special access to Docker's internals to collect logs from the container running inside Docker. Loki's way of obtaining this access is by means of a Docker plugin.
-
-I have included a script `install_loki_plugin.sh` to automatically install the plugin. If it does not work, please let me know, or you can read the script and try to follow its steps.
-
-The script requires sudo priviliges, so run
-
-```
-sudo su
-install_loki_plugin.sh
-```
-
-## 3. Create a `.env` File
+## 2. Create a `.env` File
 
 The `.env` file defines important environment variables used to set up the monitoring. Create a `.env` file in the `coti-node-monitoring` directory, enter your environment variables in the following format:
 
 ```.env
-SERVERNAME=<your-node-domain.tld>
-GRAFANA_USERNAME=<Choose a username here>
-GRAFANA_PASSWORD=<Choose a password here>
+SERVERNAME="<your-node-domain.tld>"
+GRAFANA_USERNAME="<Enter a username here>"
+GRAFANA_PASSWORD="<Enter a password here>"
 ```
 
 where
@@ -82,7 +69,7 @@ where
 - `GRAFANA_USERNAME` is the username you wish to use to login to the Grafana dashboard, and,
 - `GRAFANA_PASSWORD` is the password you wish to use to login to the Grafana dashboard.
 
-If you are unsure about a username, you can use your email associated with your Coti node (or make one up). [Click here for a simple password generator](https://bitwarden.com/password-generator/)
+If you are unsure about a username, you can use your email associated with your Coti node (or make one up). [Click here for a simple password generator](https://bitwarden.com/password-generator/).
 
 # 🏃 Running the Monitoring Stack
 
@@ -152,7 +139,7 @@ Out of the box features
 
 While the dashboards are more immediately useful, the preconfigured Grafana datasources will allow you to create your own queries and graphs.
 
-<!-- # Useful Docker Management Commands
+# Useful Docker Management Commands
 
 Take down a single container:
 
@@ -170,21 +157,26 @@ Restart an individual container:
 
 ```
 docker restart <container_name>
-``` -->
+```
+
+View logs of a single service/container:
+
+```
+docker-compose logs <container_name> --follow
+```
 
 # 🧑‍💻 Debugging
 
 This section will be used to answer common debugging problems related to this installation process.
 
 <details>
-    <summary>I get HTTPS errors or strange connectivity problems even though everything is set up correctly</summary>
-In creating this setup, I found that sometimes I would get intermittent problems with connecting via HTTPS. In debugging, I found that destroying and recreating the `gateway` network would fix this. My suspicion is this is a slight bug/incompatability in Docker, but I am not 100% clear the cause.<br/>
+    <summary>I get HTTPS errors or strange connectivity problems even though everything is set up correctly, or `postgres: could not get migration log" error="failed to check table existence: dial tcp 172.19.0.7:5432: connect: connection refused"`</summary>
+In creating this setup, I found that sometimes I would get intermittent problems with networking between docker containers. In debugging, I found that destroying and recreating the `gateway` network would fix this. My suspicion is this is a slight bug/incompatability in Docker, but I am not 100% clear about the cause.<br/>
     Whenever I had these issues, I was able to solve them by running
     <ul>
-      <li>docker network rm gateway && docker network create   --driver=bridge   --attachable   --internal=false   gateway && docker-compose down && docker-compose up</li>
+      <li>docker network rm gateway && docker network create   --driver=bridge   --attachable   --internal=false   gateway</li>
     </ul>
-    which at once recreates the network and recreates your docker-compose setup.
-
+    which recreates the network.
 <br/>
 <br/>
 </details>
@@ -199,6 +191,8 @@ This installation method is stable and works well in my tests, but it is far fro
 - Monitoring traefik (the web server) and charting response times
 
 If you are interested in contributing to any of these, I would happily take suggestions or code submissions, or make this repository accessible to collaborators.
+
+Dashboards are especially easy to contribute, as they can be exported from Grafana easily as JSON files, and all I need to do to make them appear is put them in the directory `config/grafana/provisioning/dashboards`.
 
 # ✨ Credits
 
