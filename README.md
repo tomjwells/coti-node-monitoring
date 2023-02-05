@@ -35,8 +35,6 @@ To do this, you can either add a wildcard subdomain (`*`), or the specific subdo
 
 ![Wildcard subdomain example](https://media.discordapp.net/attachments/995792094088155227/1070766780181659668/Screenshot_2023-02-02_at_18.04.48.png)
 
-where the IP address is the IP address for your server.
-
 ## 1. Clone the Repository
 
 To keep things organized, I suggest having your Coti node located under the directory `~/coti-node`. We will install the monitoring setup alongside that directory, under `~/coti-node-monitoring`. From your home directory, run
@@ -58,19 +56,19 @@ GRAFANA_PASSWORD="<Enter a password here>"
 where
 
 - `SERVERNAME` is the web address of your node, excluding `http(s)://` and `www.`, for example `subdomain.your-node-domain.tld`,
-- `GRAFANA_USERNAME` is the username you wish to use to login to the Grafana dashboard, and,
-- `GRAFANA_PASSWORD` is the password you wish to use to login to the Grafana dashboard.
+- `GRAFANA_USERNAME` is the username you wish to use to login to Grafana, and,
+- `GRAFANA_PASSWORD` is the password you wish to use to login to Grafana.
 
 If you are unsure about a username, you can use your email associated with your Coti node (or make one up). [Click here for a simple password generator](https://bitwarden.com/password-generator/).
 
 # 🏃 Running the Monitoring Stack
 
-Assuming you have followed the <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a>, you should already have:
+If you followed the <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a>, you should have the following Docker components in place:
 
 - A Docker network called `gateway`
 - The containers `coti-node` and `traefik` running
 
-You can check the Docker networks with `docker network ls`, and you can check the running containers with `docker ps`.
+You can check the Docker networks with `docker network ls`, and you can check which containers are running with `docker ps`.
 
 ## Run the Monitoring Stack
 
@@ -80,7 +78,7 @@ Now you are ready to run the monitoring stack! From the Coti node monitoring dir
 docker-compose up
 ```
 
-This will pull all of the monitoring software for you and launch it once it is downloaded. If everything goes successfully, you are done.
+This pulls all of the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
 
 Grafana usually takes between 10-30 seconds to become ready, so after some seconds, navigate in your browser to `monitoring.<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
 
@@ -131,7 +129,7 @@ Restart an individual container:
 docker restart <container_name>
 ```
 
-View logs of a single service/container:
+Follow logs of a single service/container:
 
 ```
 docker-compose logs <container_name> --follow
@@ -155,14 +153,14 @@ In creating this setup, I found that sometimes I would get intermittent problems
 
 # Contributing
 
-This installation method is stable and works well in my tests, but it is far from perfect. I have many ideas for improvements that are not explored. Some of these are
+This installation method is stable and works well in my tests, but there is plenty of room for improvement. I have many ideas that have not been explored. Some of these are
 
 - Fixing any bugs
 - Configuring alerts (e.g. based on RAM usage, CPU usage, and response times)
 - More sophisticated dashboards that take better advantage of the unique information available from Coti nodes
 - Monitoring traefik (the web server) and charting response times
 
-Dashboards are especially easy (and helpful) to contribute, as they can very easily be exported from Grafana as JSON files, and all I need to do to make them appear is put them in the directory `config/grafana/provisioning/dashboards`.
+Dashboards are especially easy (and helpful) to contribute, as they can very easily be exported from Grafana as JSON files, and all that's needed to make them appear is place them in the directory `config/grafana/provisioning/dashboards`.
 
 If you are interested in contributing to any of these, I would happily take suggestions or code submissions, or make this repository accessible to collaborators.
 
@@ -177,7 +175,7 @@ Stay Coti. ️‍🔥
 <br />
 <br />
 
-If you have questions, I hang out on twitter <a href="https://twitter.com/tomjwells">@tomjwells</a>. Come and say hi and talk Coti!
+If you have questions, I hang out on twitter <a href="https://twitter.com/tomjwells">@tomjwells</a>. Come and say hi and lets talk Coti!
 <br />
 <br />
 <br />
