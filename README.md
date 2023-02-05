@@ -27,14 +27,6 @@ This guide assumes that your node has been installed using Docker. If you are ye
 - docker-compose
 - git
 
-Before beginning, you should bring down your node, since one of the steps requires a restart of Docker. For nodes installed with Docker, do this by navigating to your directory where your docker-compose file is located, and run
-
-```
-docker-compose down
-```
-
-which safely brings down your node.
-
 ## DNS Settings
 
 The monitoring system is set up to be accessed from the url `https://monitoring.<your-node-url>`. If you have not set up a subdomain record with your DNS provider, it is likely you will need to do this to make that url accessible.
@@ -73,48 +65,28 @@ If you are unsure about a username, you can use your email associated with your 
 
 # 🏃 Running the Monitoring Stack
 
-You may want to perform this process with two terminal sessions open. In one terminal you can run the Coti node, and in the other you will run the monitoring stack.
+Assuming you have followed the <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a>, you should already have:
 
-## Step 1) Set up a Network
+- A Docker network called `gateway`
+- The containers `coti-node` and `traefik` running
 
-This setup uses a Docker network called `gateway` (that we create) to communicate between the two projects. You can check if this network exists on your system using `docker network ls`. If it exists, you needn't do anything. If it does not exist, it can be created with `docker network create --driver=bridge --attachable --internal=false gateway`. Or, in one line:
+You can check the Docker networks with `docker network ls`, and you can check the running containers with `docker ps`.
 
-```
-[[ $(docker network ls) == *"gateway"* ]] && docker network create --driver=bridge --attachable --internal=false gateway
-```
+## Run the Monitoring Stack
 
-## Step 2) Run the Coti Node
-
-Since we installed the Loki plugin, it is safest to use the `--force-recreate` option of docker-compose when running the Coti node, which makes Docker rebuild the containers with proper configuration for Loki logging.
-In your first terminal, navigate to your Coti node directory, and run the containers
-
-```
-docker-compose up --force-recreate
-```
-
-The `--force-recreate` option is only needed the first time after installing the Loki plugin. Every other time, you can simply use
+Now you are ready to run the monitoring stack! From the Coti node monitoring directory, run
 
 ```
 docker-compose up
 ```
 
-Make sure your Coti node is running correctly before continuing to the next step.
+This will pull all of the monitoring software for you and launch it once it is downloaded. If everything goes successfully, you are done.
 
-## Step 3) Run the Monitoring Stack
-
-Now you are ready to run the monitoring stack! In the second terminal, change to the Coti node monitoring directory, and run
-
-```
-docker-compose up
-```
-
-This will download and install the monitoring software for you, . If everything goes successfully, you are done.
-
-Grafana usually takes between 10-30 seconds to become ready, so after a few seconds, navigate in your browser to `monitoring.<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
+Grafana usually takes between 10-30 seconds to become ready, so after some seconds, navigate in your browser to `monitoring.<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
 
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504105056948244/Screenshot_2023-02-02_at_00.40.57.png?width=1445&height=825"/>
 
-Your sign-in credentials come from the `.env` file. Use your `EMAIL` as your username, and `PKEY` as your password.
+Use the sign in credentials you set in your `.env` file to log in.
 
 If you see the following welcome screen:
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504686387478598/Screenshot_2023-02-02_at_00.43.14.png?width=1802&height=825"/>
@@ -124,7 +96,7 @@ then congrats, you did it!
 
 # Using Grafana
 
-I wish to cover some of the features that come out-of-the-box with this installation method. These could be improved and extended further and I would welcome improvements and suggestions from others.
+I wish to cover some of the features that come out-of-the-box with this installation method. These could be improved and extended further over time and I would welcome improvements and suggestions from others.
 
 Out of the box features
 
@@ -190,9 +162,9 @@ This installation method is stable and works well in my tests, but it is far fro
 - More sophisticated dashboards that take better advantage of the unique information available from Coti nodes
 - Monitoring traefik (the web server) and charting response times
 
-If you are interested in contributing to any of these, I would happily take suggestions or code submissions, or make this repository accessible to collaborators.
+Dashboards are especially easy (and helpful) to contribute, as they can very easily be exported from Grafana as JSON files, and all I need to do to make them appear is put them in the directory `config/grafana/provisioning/dashboards`.
 
-Dashboards are especially easy to contribute, as they can be exported from Grafana easily as JSON files, and all I need to do to make them appear is put them in the directory `config/grafana/provisioning/dashboards`.
+If you are interested in contributing to any of these, I would happily take suggestions or code submissions, or make this repository accessible to collaborators.
 
 # ✨ Credits
 
