@@ -56,10 +56,10 @@ GRAFANA_PASSWORD="<Enter a password here>"
 where
 
 - `SERVERNAME` is the web address of your node, excluding `http(s)://` and `www.`, for example `subdomain.your-node-domain.tld`,
-- `GRAFANA_USERNAME` is the username you wish to use to login to Grafana, and,
-- `GRAFANA_PASSWORD` is the password you wish to use to login to Grafana.
+- `GRAFANA_USERNAME` is the username you wish to use for logging in to Grafana, and,
+- `GRAFANA_PASSWORD` is the password you wish to use for logging in to Grafana.
 
-If you are unsure about a username, you can use your email associated with your Coti node (or make one up). [Click here for a simple password generator](https://bitwarden.com/password-generator/).
+If you are unsure about a username, you can use your email associated with your Coti node (or make one up). For the password, you can use `tr -dc A-Za-z0-9 </dev/urandom | head -c 64` to generate one from a shell.
 
 # 🏃 Running the Monitoring Stack
 
@@ -84,7 +84,7 @@ Grafana usually takes between 10-30 seconds to become ready, so after some secon
 
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504105056948244/Screenshot_2023-02-02_at_00.40.57.png?width=1445&height=825"/>
 
-Use the sign in credentials you set in your `.env` file to log in.
+Use the sign in credentials set in your `.env` file, `GRAFANA_USERNAME` and `GRAFANA_PASSWORD`, to log in.
 
 If you see the following welcome screen:
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504686387478598/Screenshot_2023-02-02_at_00.43.14.png?width=1802&height=825"/>
@@ -159,6 +159,7 @@ This installation method is stable and works well in my tests, but there is plen
 - Configuring alerts (e.g. based on RAM usage, CPU usage, and response times)
 - More sophisticated dashboards that take better advantage of the unique information available from Coti nodes
 - Monitoring traefik (the web server) and charting response times
+- Create and maintain a systemd-compatible version of this monitoring method
 
 Dashboards are especially easy (and helpful) to contribute, as they can very easily be exported from Grafana as JSON files, and all that's needed to make them appear is place them in the directory `config/grafana/provisioning/dashboards`.
 
