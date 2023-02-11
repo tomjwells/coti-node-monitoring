@@ -25,7 +25,20 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 5,
-  "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "question",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Github",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://github.com/tj-wells/coti-node-monitoring"
+    }
+  ],
   "liveNow": false,
   "panels": [
     {

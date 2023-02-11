@@ -21,7 +21,7 @@ This method provides:
 
 # Installation Instructions
 
-This guide assumes that your node has been installed using Docker. If you are yet to do this, I suggest checking out my <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a> before installing any monitoring. This guide also assumes you have the following programs installed:
+This guide assumes that your node has been installed using Docker. If you are interested in doing this, I suggest checking out my <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a> before installing any monitoring. Installing your node with Docker will make it easier to run additional software (like this setup) alongside your node. This guide also assumes you have the following programs installed:
 
 - Docker
 - docker-compose

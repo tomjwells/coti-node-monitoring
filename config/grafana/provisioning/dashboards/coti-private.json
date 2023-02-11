@@ -39,15 +39,17 @@
       "url": "https://grafana.com/grafana/dashboards/11074"
     },
     {
-      "$$hashKey": "object:2301",
+      "asDropdown": false,
       "icon": "question",
+      "includeVars": false,
+      "keepTime": false,
       "tags": [],
-      "targetBlank": true,
-      "title": "GitHub",
-      "tooltip": "more dashboard",
+      "targetBlank": false,
+      "title": "Github",
+      "tooltip": "",
       "type": "link",
-      "url": "https://github.com/starsliao"
-    },
+      "url": "https://github.com/tj-wells/coti-node-monitoring"
+    }
     {
       "$$hashKey": "object:2302",
       "asDropdown": true,
