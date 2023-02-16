@@ -21,11 +21,22 @@ This method provides:
 
 # Installation Instructions
 
-This guide assumes that your node has been installed using Docker. If you are interested in doing this, I suggest checking out my <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a> before installing any monitoring. Installing your node with Docker will make it easier to run additional software (like this setup) alongside your node. This guide also assumes you have the following programs installed:
+This guide uses Docker to run the monitoring components, but is compatible with Coti nodes installed either with the Docker method, or being run with systemd (a.k.a. GeordieR's installation scripts).
 
-- Docker
-- docker-compose
-- git
+If your node is installed with GeordieR's method, you will likely need to run the following commands to install `docker` and `docker-compose`:
+
+```
+sudo su
+curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+curl -L https://github.com/docker/compose/releases/download/v2.15.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
+```
+
+Run the following commands to check whether the installations were successful
+
+```
+docker --version
+docker-compose --version
+```
 
 ## DNS Settings
 
@@ -63,22 +74,41 @@ If you are unsure about a username, you can use your email associated with your 
 
 # 🏃 Running the Monitoring Stack
 
-If you followed the <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a>, you should have the following Docker components in place:
+If you followed the <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a>, you will already have a network called `gateway` running. You can check the Docker networks with `docker network ls`. If this network is not created, or your node is running with systemd, you can create the `gateway` network with
 
-- A Docker network called `gateway`
-- The containers `coti-node` and `traefik` running
+```
+docker network create --driver=bridge --attachable --internal=false gateway
+```
 
-You can check the Docker networks with `docker network ls`, and you can check which containers are running with `docker ps`.
+Check whether the Docker network has been created with `docker network ls`. If you see the `gateway` network in the output, then you are ready to continue.
 
-## Run the Monitoring Stack
+## Run the Monitoring Stack (Docker Installations)
 
-Now you are ready to run the monitoring stack! From the Coti node monitoring directory, run
+Now you are ready to run the monitoring stack! If your node is installed with Docker, run
 
 ```
 docker-compose up
 ```
 
 This pulls all of the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
+
+## Run the Monitoring Stack (Systemd Installations)
+
+Now you are ready to run the monitoring stack! If your node is running with systemd, run
+
+```
+docker-compose -f docker-compose-systemd.yml up
+```
+
+If this command runs successfully and you see no errors, it is likely that Grafana is already running on your machine.
+
+Now we need to modify the web server configuration. I have included a script which performs the necessary changes for you. Make sure you are logged into root with `sudo su`. Then, the script can be run with
+
+```
+./configure-webserver.sh
+```
+
+## Logging in to Grafana
 
 Grafana usually takes between 10-30 seconds to become ready, so after some seconds, navigate in your browser to `monitoring.<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
 
