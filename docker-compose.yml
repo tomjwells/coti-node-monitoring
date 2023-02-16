@@ -63,7 +63,7 @@ services:
 
   loki:
     container_name: loki
-    image: grafana/loki:latest
+    image: grafana/loki:2.7.3
     volumes:
       - ./config/loki:/etc/loki
     restart: unless-stopped
@@ -71,7 +71,7 @@ services:
 
   promtail:
     container_name: promtail
-    image: grafana/promtail:latest
+    image: grafana/promtail:2.7.3
     volumes:
       - /var/log:/var/log
       - ./config/promtail:/etc/promtail
@@ -114,7 +114,7 @@ services:
   # DB for Grafana
   postgres:
     container_name: postgres
-    image: postgres
+    image: postgres:15.1
     ports:
       - 5432:5432
     volumes:

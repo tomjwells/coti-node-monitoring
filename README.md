@@ -8,9 +8,9 @@
     <a href="https://twitter.com/intent/tweet?text=I%20just%20installed%20%24COTI%20node%20monitoring%20with%20%40tomjwells%27%20Docker%20installation%20method.%20It%20worked%20like%20a%20charm%21%20and%20looks%20great%0A%0A%F0%9F%94%A5%0A%0Ahttps%3A%2F%2Fgithub.com%2Ftj-wells%2Fcoti-node-monitoring%0A%0A%23COTI%20%24DJED%20%24SHEN%20%20"><img src="https://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
 </p><br/>
 
-<p align="center"><a href="https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s"><img src="https://media.discordapp.net/attachments/995792094088155227/1070497353968128041/Screenshot_2023-02-02_at_00.14.12.png?width=1493&height=825" width="100%" /></a></p><br/>
+<p align="center"><a href="https://public.testnet.atomnode.tomoswells.com"><img src="https://media.discordapp.net/attachments/995792094088155227/1070497353968128041/Screenshot_2023-02-02_at_00.14.12.png?width=1493&height=825" width="100%" /></a></p><br/>
 
-[Click to see a live example of a dashboard produced from this setup](https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s).
+[Click to see a live example of a dashboard produced from this setup](https://public.testnet.atomnode.tomoswells.com).
 
 This method provides:
 
@@ -21,19 +21,11 @@ This method provides:
 
 # Installation Instructions
 
-This guide assumes that your node has been installed using Docker. If you are yet to do this, I suggest checking out my <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a> before installing any monitoring. This guide also assumes you have the following programs installed:
+This guide assumes that your node has been installed using Docker. If you are interested in doing this, I suggest checking out my <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a> before installing any monitoring. Installing your node with Docker will make it easier to run additional software (like this setup) alongside your node. This guide also assumes you have the following programs installed:
 
 - Docker
 - docker-compose
 - git
-
-Before beginning, you should bring down your node, since one of the steps requires a restart of Docker. For nodes installed with Docker, do this by navigating to your directory where your docker-compose file is located, and run
-
-```
-docker-compose down
-```
-
-which safely brings down your node.
 
 ## DNS Settings
 
@@ -42,8 +34,6 @@ The monitoring system is set up to be accessed from the url `https://monitoring.
 To do this, you can either add a wildcard subdomain (`*`), or the specific subdomain you intend to set up (`monitoring.`). In my case I went with a wildcard subdomain, and my working DNS configuration looks like
 
 ![Wildcard subdomain example](https://media.discordapp.net/attachments/995792094088155227/1070766780181659668/Screenshot_2023-02-02_at_18.04.48.png)
-
-where the IP address is the IP address for your server.
 
 ## 1. Clone the Repository
 
@@ -66,55 +56,35 @@ GRAFANA_PASSWORD="<Enter a password here>"
 where
 
 - `SERVERNAME` is the web address of your node, excluding `http(s)://` and `www.`, for example `subdomain.your-node-domain.tld`,
-- `GRAFANA_USERNAME` is the username you wish to use to login to the Grafana dashboard, and,
-- `GRAFANA_PASSWORD` is the password you wish to use to login to the Grafana dashboard.
+- `GRAFANA_USERNAME` is the username you wish to use for logging in to Grafana, and,
+- `GRAFANA_PASSWORD` is the password you wish to use for logging in to Grafana.
 
-If you are unsure about a username, you can use your email associated with your Coti node (or make one up). [Click here for a simple password generator](https://bitwarden.com/password-generator/).
+If you are unsure about a username, you can use your email associated with your Coti node (or make one up). For the password, you can use `tr -dc A-Za-z0-9 </dev/urandom | head -c 64` to generate one from a shell.
 
 # 🏃 Running the Monitoring Stack
 
-You may want to perform this process with two terminal sessions open. In one terminal you can run the Coti node, and in the other you will run the monitoring stack.
+If you followed the <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a>, you should have the following Docker components in place:
 
-## Step 1) Set up a Network
+- A Docker network called `gateway`
+- The containers `coti-node` and `traefik` running
 
-This setup uses a Docker network called `gateway` (that we create) to communicate between the two projects. You can check if this network exists on your system using `docker network ls`. If it exists, you needn't do anything. If it does not exist, it can be created with `docker network create --driver=bridge --attachable --internal=false gateway`. Or, in one line:
+You can check the Docker networks with `docker network ls`, and you can check which containers are running with `docker ps`.
 
-```
-[[ $(docker network ls) == *"gateway"* ]] && docker network create --driver=bridge --attachable --internal=false gateway
-```
+## Run the Monitoring Stack
 
-## Step 2) Run the Coti Node
-
-Since we installed the Loki plugin, it is safest to use the `--force-recreate` option of docker-compose when running the Coti node, which makes Docker rebuild the containers with proper configuration for Loki logging.
-In your first terminal, navigate to your Coti node directory, and run the containers
-
-```
-docker-compose up --force-recreate
-```
-
-The `--force-recreate` option is only needed the first time after installing the Loki plugin. Every other time, you can simply use
+Now you are ready to run the monitoring stack! From the Coti node monitoring directory, run
 
 ```
 docker-compose up
 ```
 
-Make sure your Coti node is running correctly before continuing to the next step.
+This pulls all of the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
 
-## Step 3) Run the Monitoring Stack
-
-Now you are ready to run the monitoring stack! In the second terminal, change to the Coti node monitoring directory, and run
-
-```
-docker-compose up
-```
-
-This will download and install the monitoring software for you, . If everything goes successfully, you are done.
-
-Grafana usually takes between 10-30 seconds to become ready, so after a few seconds, navigate in your browser to `monitoring.<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
+Grafana usually takes between 10-30 seconds to become ready, so after some seconds, navigate in your browser to `monitoring.<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
 
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504105056948244/Screenshot_2023-02-02_at_00.40.57.png?width=1445&height=825"/>
 
-Your sign-in credentials come from the `.env` file. Use your `EMAIL` as your username, and `PKEY` as your password.
+Use the sign in credentials set in your `.env` file, `GRAFANA_USERNAME` and `GRAFANA_PASSWORD`, to log in.
 
 If you see the following welcome screen:
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504686387478598/Screenshot_2023-02-02_at_00.43.14.png?width=1802&height=825"/>
@@ -124,12 +94,12 @@ then congrats, you did it!
 
 # Using Grafana
 
-I wish to cover some of the features that come out-of-the-box with this installation method. These could be improved and extended further and I would welcome improvements and suggestions from others.
+I wish to cover some of the features that come out-of-the-box with this installation method. These could be improved and extended further over time and I would welcome improvements and suggestions from others.
 
 Out of the box features
 
 - Dashboards:
-  - `Coti Public Dashboard` - a publicly sharable dashboard. ([Example](https://monitoring.testnet.atomnode.tomoswells.com/public-dashboards/e74a85014074490ca844039c73436f3d?orgId=1&refresh=10s))
+  - `Coti Public Dashboard` - a publicly sharable dashboard. ([Example](https://public.testnet.atomnode.tomoswells.com))
     - ![img](https://media.discordapp.net/attachments/995792094088155227/1070709166404022344/Screenshot_2023-02-02_at_14.15.31.png?width=1589&height=825)
   - `Coti Private Dashboard` - a dashboard which has a bit more information
     - ![img](https://media.discordapp.net/attachments/995792094088155227/1070497353968128041/Screenshot_2023-02-02_at_00.14.12.png?width=1493&height=825)
@@ -159,7 +129,7 @@ Restart an individual container:
 docker restart <container_name>
 ```
 
-View logs of a single service/container:
+Follow logs of a single service/container:
 
 ```
 docker-compose logs <container_name> --follow
@@ -183,16 +153,17 @@ In creating this setup, I found that sometimes I would get intermittent problems
 
 # Contributing
 
-This installation method is stable and works well in my tests, but it is far from perfect. I have many ideas for improvements that are not explored. Some of these are
+This installation method is stable and works well in my tests, but there is plenty of room for improvement. I have many ideas that have not been explored. Some of these are
 
 - Fixing any bugs
 - Configuring alerts (e.g. based on RAM usage, CPU usage, and response times)
 - More sophisticated dashboards that take better advantage of the unique information available from Coti nodes
 - Monitoring traefik (the web server) and charting response times
+- Create and maintain a systemd-compatible version of this monitoring method
+
+Dashboards are especially easy (and helpful) to contribute, as they can very easily be exported from Grafana as JSON files, and all that's needed to make them appear is place them in the directory `config/grafana/provisioning/dashboards`.
 
 If you are interested in contributing to any of these, I would happily take suggestions or code submissions, or make this repository accessible to collaborators.
-
-Dashboards are especially easy to contribute, as they can be exported from Grafana easily as JSON files, and all I need to do to make them appear is put them in the directory `config/grafana/provisioning/dashboards`.
 
 # ✨ Credits
 
@@ -205,7 +176,7 @@ Stay Coti. ️‍🔥
 <br />
 <br />
 
-If you have questions, I hang out on twitter <a href="https://twitter.com/tomjwells">@tomjwells</a>. Come and say hi and talk Coti!
+If you have questions, I hang out on twitter <a href="https://twitter.com/tomjwells">@tomjwells</a>. Come and say hi and lets talk Coti!
 <br />
 <br />
 <br />
