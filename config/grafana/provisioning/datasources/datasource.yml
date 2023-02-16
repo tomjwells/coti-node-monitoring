@@ -6,6 +6,9 @@ deleteDatasources:
   - name: Loki
     orgId: 1
 
+dataproxy:
+  timeout: 300
+
 # list of datasources to insert/update depending
 # whats available in the database
 datasources:
@@ -37,7 +40,8 @@ datasources:
     isDefault: true
     # <map> fields that will be converted to json and stored in json_data
     jsonData:
-      {}
+      maxLines: 2000
+      timeout: 300
       # graphiteVersion: '1.1'
       # tlsAuth: false
       # tlsAuthWithCACert: false

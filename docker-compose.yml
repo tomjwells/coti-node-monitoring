@@ -101,7 +101,7 @@ services:
     container_name: prometheus
     volumes:
       - ./config/prometheus:/etc/prometheus
-      # - prometheus:/prometheus # Makes lose data when you destroy containers
+      - prometheus:/prometheus # Makes lose data when you destroy containers # May be that this prob is most easily solved with Grafana cloud
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'

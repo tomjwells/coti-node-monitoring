@@ -24,13 +24,18 @@ query_range:
         max_size_mb: 100
   parallelise_shardable_queries: true
 
+querier:
+  engine:
+    timeout: 10m
+  query_timeout: 10m
+
 # https://github.com/grafana/loki/issues/5123#issuecomment-1167018445
 query_scheduler:
   max_outstanding_requests_per_tenant: 10000
 frontend:
   max_outstanding_per_tenant: 10000
 limits_config:
-  split_queries_by_interval: 15m
+  split_queries_by_interval: 5m
   max_query_parallelism: 32
 
 schema_config:
