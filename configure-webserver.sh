@@ -3,7 +3,7 @@ set -eu -o pipefail # fail on error , debug all lines
 
 ## Backup original nginx.conf
 nginx_conf=/etc/nginx/sites-enabled/coti_fullnode.conf
-mv $nginx_conf ~/$nginx_conf.bak
+mv $nginx_conf ~/nginx_conf.bak
 
 # 1) Add new location to nginx.conf
 ## Add lines to top of file
@@ -14,11 +14,11 @@ top_of_nginx_conf="map \$http_upgrade \$connection_upgrade {
 upstream grafana {
   server localhost:3000;
 }"
-echo -e "$top_of_nginx_conf\n$(cat ~/$nginx_conf.bak)" > $nginx_conf
+echo -e "$top_of_nginx_conf\n$(cat ~/nginx_conf.bak)" > $nginx_conf
 
 ## Remove lines
-mv $nginx_conf ~/$nginx_conf.intermediate
-head -n -9 ~/$nginx_conf.intermediate > $nginx_conf
+mv $nginx_conf ~/nginx_conf.intermediate
+head -n -9 ~/nginx_conf.intermediate > $nginx_conf
 # rm $nginx_conf.intermediate
 
 ## Append lines to bottom of file

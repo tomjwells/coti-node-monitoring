@@ -67,6 +67,7 @@ services:
       - ./config/promtail:/etc/promtail
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
+      - /home/coti/coti-node/logs/FullNode1.log:/var/log/coti-node.log
     restart: unless-stopped
     command: -config.file=/etc/promtail/config.yaml
     depends_on:
@@ -113,3 +114,4 @@ services:
       POSTGRES_DB: grafana
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: internal_password
+

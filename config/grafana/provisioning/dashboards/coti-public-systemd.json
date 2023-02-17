@@ -24,6 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 68,
   "links": [
     {
       "asDropdown": false,
@@ -64,8 +65,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -154,8 +154,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -475,8 +474,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -616,8 +614,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -701,8 +698,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -783,18 +779,15 @@
           "color": {
             "mode": "thresholds"
           },
-          "displayName": "$__cell_0",
           "mappings": [],
-          "min": 0,
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
+                "color": "green"
               },
               {
-                "color": "purple",
+                "color": "red",
                 "value": 80
               }
             ]
@@ -808,7 +801,7 @@
         "x": 0,
         "y": 10
       },
-      "id": 2,
+      "id": 40,
       "options": {
         "displayMode": "gradient",
         "minVizHeight": 10,
@@ -816,13 +809,12 @@
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "allValues"
+            "lastNotNull"
           ],
           "fields": "",
-          "values": true
+          "values": false
         },
-        "showUnfilled": true,
-        "text": {}
+        "showUnfilled": true
       },
       "pluginVersion": "9.3.6",
       "targets": [
@@ -832,52 +824,12 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "{container_name=\"traefik\"} |= \"Request=\" != \"monitoring\" != \"worldmap\" | pattern `<_> Request=\"<request>\"`",
-          "hide": false,
+          "expr": "sum(count_over_time({job=\"nginx\"} != \"monitoring\" != \".env\" != \"acme\" | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <_> <_> \"<_>\" <_>` [1m])) by (path)",
           "queryType": "range",
           "refId": "A"
         }
       ],
       "title": "Requests in the last hour",
-      "transformations": [
-        {
-          "id": "extractFields",
-          "options": {
-            "format": "kvp",
-            "replace": false,
-            "source": "Line"
-          }
-        },
-        {
-          "id": "extractFields",
-          "options": {
-            "format": "json",
-            "replace": false,
-            "source": "Request"
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "RequestURI": {
-                "aggregations": [],
-                "operation": "groupby"
-              },
-              "id": {
-                "aggregations": [
-                  "count"
-                ],
-                "operation": "aggregate"
-              },
-              "uri": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        }
-      ],
       "type": "bargauge"
     },
     {
@@ -1045,16 +997,16 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "points",
-            "fillOpacity": 100,
-            "gradientMode": "none",
+            "drawStyle": "line",
+            "fillOpacity": 36,
+            "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "stepBefore",
-            "lineWidth": 0,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -1074,8 +1026,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1180,7 +1131,7 @@
         "x": 0,
         "y": 19
       },
-      "id": 36,
+      "id": 42,
       "maxDataPoints": 100,
       "options": {
         "legend": {
@@ -1201,7 +1152,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum by (level) (count_over_time({container_name=\"traefik\"} | pattern `<_> level=<level> msg=<_>` [1m]))",
+          "expr": "sum(count_over_time({job=\"nginx\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <_> <_> \"<_>\" <_>` [1m])) by (status)",
           "legendFormat": "",
           "queryType": "range",
           "refId": "A",
@@ -1261,8 +1212,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1310,7 +1260,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum by (level) (count_over_time({container_name=\"coti-node\"}[2m]))\n\n",
+          "expr": "sum by (level) (count_over_time({filename=\"/var/log/coti-node.log\"}[2m]))\n\n",
           "hide": false,
           "queryType": "range",
           "refId": "A",
@@ -1781,8 +1731,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Coti Public",
-  "uid": "4iADwvaA4z",
-  "version": 8,
+  "title": "Coti Public (Systemd)",
+  "uid": "lkwTM1JVz",
+  "version": 3,
   "weekStart": ""
 }
