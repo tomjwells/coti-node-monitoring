@@ -1,7 +1,7 @@
 # coti-node-monitoring
 
-<h1 align="center">Coti Node Monitoring (for Systemd and Docker nodes)</h1>
-<p align="center">An easy method to configure public and private monitoring for Coti nodes.</p>
+<h1 align="center">Coti Node Monitoring</h1>
+<p align="center">An easy method to configure public and private monitoring for Coti nodes. This setup is compatible with nodes installed with Systemd or Docker.</p>
 
 <p align="center">
 	<a href="https://github.com/tj-wells/coti-node-monitoring"><img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/tj-wells/coti-node-monitoring"></a>
