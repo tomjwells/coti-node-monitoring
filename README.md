@@ -14,14 +14,14 @@
 
 This method provides:
 
-- A <a href="https://github.com/grafana/grafana" target="_blank">Grafana</a> dashboard visualisation system, accessible at `https://monitoring.<your-node-url>` for Docker users, and `https://<your-node-url>/monitoring` for Systemd users
+- A <a href="https://github.com/grafana/grafana" target="_blank">Grafana</a> dashboard visualisation system
 - Automatic SSL certificate management for the new subdomain (not necessary for Systemd installations)
 - Server monitoring and health statistics with <a href="https://prometheus.io/docs/introduction/overview/" target="_blank">Prometheus</a>
 - Log tracking and querying with <a href="https://github.com/grafana/loki" target="_blank">Loki</a>
 
 # Installation Instructions
 
-This guide uses Docker to build the components that make up the monitoring stack, yet is compatible with Coti nodes installed either with the Docker method, or nodes being run with systemd (a.k.a. <a href="https://cotidocs.geordier.co.uk/">GeordieR's installation scripts</a>).
+While this guide uses Docker to build the components that make up the monitoring stack, it will work with nodes install with the Docker method, or nodes being run with systemd (a.k.a. <a href="https://cotidocs.geordier.co.uk/">GeordieR's installation scripts</a>).
 
 If your node is installed with GeordieR's method, you will likely need to run the following commands to install `docker` and `docker-compose`:
 
@@ -31,7 +31,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 curl -L https://github.com/docker/compose/releases/download/v2.15.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
 ```
 
-Run the following commands to check whether the installations were successful
+Check whether the installations were successful using
 
 ```
 docker --version
@@ -90,7 +90,7 @@ Now you are ready to run the monitoring stack! If your node is installed with Do
 docker-compose up
 ```
 
-This pulls all of the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
+This pulls the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
 
 ## Run the Monitoring Stack (Systemd Installations)
 
@@ -106,7 +106,7 @@ Now you are ready to run the monitoring stack! If your node is running with syst
 docker-compose -f docker-compose-systemd.yml up
 ```
 
-This pulls all of the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
+This pulls the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
 
 ## Logging in to Grafana
 
@@ -137,7 +137,7 @@ Out of the box features
   - <a href="https://prometheus.io/docs/visualization/grafana/" target="_blank">Prometheus</a>
   - <a href="https://grafana.com/oss/loki/" target="_blank">Loki</a>
 
-While the dashboards are more immediately useful, the preconfigured Grafana datasources will allow you to create your own queries and graphs.
+While the dashboards are more immediately useful and give lots of information about the state of your node, the preconfigured Grafana datasources will allow you to create your own custom queries and graphs.
 
 # Useful Docker Management Commands
 
@@ -167,7 +167,7 @@ docker-compose logs <container_name> --follow
 
 # 🧑‍💻 Debugging
 
-This section will be used to answer common debugging problems related to this installation process.
+This section will be used to list solutions common debugging problems related to this installation process.
 
 <details>
     <summary>I get HTTPS errors or strange connectivity problems even though everything is set up correctly, or `postgres: could not get migration log" error="failed to check table existence: dial tcp 172.19.0.7:5432: connect: connection refused"`</summary>
