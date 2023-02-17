@@ -15,7 +15,7 @@
 This method provides:
 
 - A <a href="https://github.com/grafana/grafana" target="_blank">Grafana</a> dashboard visualisation system
-- Automatic SSL certificate management for the new subdomain (not necessary for Systemd installations)
+- Automatic SSL certificate management when needed
 - Server monitoring and health statistics with <a href="https://prometheus.io/docs/introduction/overview/" target="_blank">Prometheus</a>
 - Log tracking and querying with <a href="https://github.com/grafana/loki" target="_blank">Loki</a>
 
