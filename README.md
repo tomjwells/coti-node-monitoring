@@ -14,14 +14,14 @@
 
 This method provides:
 
-- A <a href="https://github.com/grafana/grafana" target="_blank">Grafana</a> dashboard visualisation system, accessible at `https://monitoring.<your-node-url>`
-- Automatic SSL certificate management for the new subdomain
+- A <a href="https://github.com/grafana/grafana" target="_blank">Grafana</a> dashboard visualisation system, accessible at `https://monitoring.<your-node-url>` for Docker users, and `https://<your-node-url>/monitoring` for Systemd users
+- Automatic SSL certificate management for the new subdomain (not necessary for Systemd installations)
 - Server monitoring and health statistics with <a href="https://prometheus.io/docs/introduction/overview/" target="_blank">Prometheus</a>
 - Log tracking and querying with <a href="https://github.com/grafana/loki" target="_blank">Loki</a>
 
 # Installation Instructions
 
-This guide uses Docker to run the monitoring components, but is compatible with Coti nodes installed either with the Docker method, or being run with systemd (a.k.a. GeordieR's installation scripts).
+This guide uses Docker to build the components that make up the monitoring stack, yet is compatible with Coti nodes installed either with the Docker method, or nodes being run with systemd (a.k.a. <a href="https://cotidocs.geordier.co.uk/">GeordieR's installation scripts</a>).
 
 If your node is installed with GeordieR's method, you will likely need to run the following commands to install `docker` and `docker-compose`:
 
@@ -38,7 +38,7 @@ docker --version
 docker-compose --version
 ```
 
-## DNS Settings
+## DNS Settings (Docker users only)
 
 The monitoring system is set up to be accessed from the url `https://monitoring.<your-node-url>`. If you have not set up a subdomain record with your DNS provider, it is likely you will need to do this to make that url accessible.
 
@@ -56,7 +56,7 @@ git clone https://github.com/tj-wells/coti-node-monitoring.git && cd coti-node-m
 
 ## 2. Create a `.env` File
 
-The `.env` file defines important environment variables used to set up the monitoring. Create a `.env` file in the `coti-node-monitoring` directory, enter your environment variables in the following format:
+The `.env` file defines important environment variables used to set up the monitoring. Create a `.env` file in the `coti-node-monitoring` directory and enter your environment variables in the following format:
 
 ```.env
 SERVERNAME="<your-node-domain.tld>"
@@ -70,7 +70,7 @@ where
 - `GRAFANA_USERNAME` is the username you wish to use for logging in to Grafana, and,
 - `GRAFANA_PASSWORD` is the password you wish to use for logging in to Grafana.
 
-If you are unsure about a username, you can use your email associated with your Coti node (or make one up). For the password, you can use `tr -dc A-Za-z0-9 </dev/urandom | head -c 64` to generate one from a shell.
+Feel free to make up your own username, or you can use your email associated with your Coti node. For the password, either choose your own or use `tr -dc A-Za-z0-9 </dev/urandom | head -c 64` to generate one from a shell.
 
 # 🏃 Running the Monitoring Stack
 
@@ -94,27 +94,27 @@ This pulls all of the monitoring software for you and launches it once it is dow
 
 ## Run the Monitoring Stack (Systemd Installations)
 
+First we need to modify the web server configuration. I have included a script which performs the necessary changes for you. Make sure you are logged in as the root user with `sudo su`. Then, the script can be run with
+
+```
+./configure-webserver.sh
+```
+
 Now you are ready to run the monitoring stack! If your node is running with systemd, run
 
 ```
 docker-compose -f docker-compose-systemd.yml up
 ```
 
-If this command runs successfully and you see no errors, it is likely that Grafana is already running on your machine.
-
-Now we need to modify the web server configuration. I have included a script which performs the necessary changes for you. Make sure you are logged into root with `sudo su`. Then, the script can be run with
-
-```
-./configure-webserver.sh
-```
+This pulls all of the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
 
 ## Logging in to Grafana
 
-Grafana usually takes between 10-30 seconds to become ready, so after some seconds, navigate in your browser to `monitoring.<your-node-url>`. If everything is working, you will see the Grafana sign-in page:
+Grafana usually takes between 10-30 seconds to become ready, so after some seconds, navigate in your browser to `monitoring.<your-node-url>` (Docker installs) or `<your-node-url>/monitoring` (Systemd installs). If everything is working, you will see the Grafana sign-in page:
 
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504105056948244/Screenshot_2023-02-02_at_00.40.57.png?width=1445&height=825"/>
 
-Use the sign in credentials set in your `.env` file, `GRAFANA_USERNAME` and `GRAFANA_PASSWORD`, to log in.
+Use the sign in credentials you set in the `.env` file, `GRAFANA_USERNAME` and `GRAFANA_PASSWORD`, to log in.
 
 If you see the following welcome screen:
 <img src="https://media.discordapp.net/attachments/995792094088155227/1070504686387478598/Screenshot_2023-02-02_at_00.43.14.png?width=1802&height=825"/>
