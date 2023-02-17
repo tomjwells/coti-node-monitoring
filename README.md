@@ -74,7 +74,7 @@ Feel free to make up your own username, or you can use your email associated wit
 
 # 🏃 Running the Monitoring Stack
 
-If you followed the <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a>, you will already have a network called `gateway` running. You can check the Docker networks with `docker network ls`. If this network is not created, or your node is running with systemd, you can create the `gateway` network with
+If you followed the <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a>, you will already have a network called `gateway` running. You can check the Docker networks with `docker network ls`. If your node is running with systemd, or the network was not created somehow, you can create the `gateway` network with
 
 ```
 docker network create --driver=bridge --attachable --internal=false gateway
