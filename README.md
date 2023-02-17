@@ -21,7 +21,7 @@ This method provides:
 
 # Installation Instructions
 
-While this guide uses Docker to build the components that make up the monitoring stack, it will work with nodes install with the Docker method, or nodes being run with systemd (a.k.a. <a href="https://cotidocs.geordier.co.uk/">GeordieR's installation scripts</a>).
+While this guide uses Docker to build the components that make up the monitoring stack, it will work with nodes installed either using Docker, or using systemd (a.k.a. <a href="https://cotidocs.geordier.co.uk/">GeordieR's installation scripts</a>).
 
 If your node is installed with GeordieR's method, you will likely need to run the following commands to install `docker` and `docker-compose`:
 
