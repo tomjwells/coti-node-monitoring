@@ -1,6 +1,6 @@
 # coti-node-monitoring
 
-<h1 align="center">Coti Node Monitoring</h1>
+<h1 align="center">Coti Node Monitoring (for Systemd and Docker nodes)</h1>
 <p align="center">An easy method to configure public and private monitoring for Coti nodes.</p>
 
 <p align="center">
