@@ -94,7 +94,7 @@ This pulls all of the monitoring software for you and launches it once it is dow
 
 ## Run the Monitoring Stack (Systemd Installations)
 
-First we need to modify the web server configuration. I have included a script which performs the necessary changes for you. Make sure you are logged in as the root user with `sudo su`. Then, the script can be run with
+First we need to modify the web server configuration. I have included a script which makes the necessary changes for you. Make sure you are logged in as the root user with `sudo su`. Then, the script can be run with
 
 ```
 ./configure-webserver.sh
@@ -189,9 +189,8 @@ This installation method is stable and works well in my tests, but there is plen
 - Configuring alerts (e.g. based on RAM usage, CPU usage, and response times)
 - More sophisticated dashboards that take better advantage of the unique information available from Coti nodes
 - Monitoring traefik (the web server) and charting response times
-- Create and maintain a systemd-compatible version of this monitoring method
 
-Dashboards are especially easy (and helpful) to contribute, as they can very easily be exported from Grafana as JSON files, and all that's needed to make them appear is place them in the directory `config/grafana/provisioning/dashboards`.
+Dashboards and panels are very easy to contribute, as they can simply be exported from Grafana as JSON files, and all that's needed to make them appear is place them in the directory `config/grafana/provisioning/dashboards`.
 
 If you are interested in contributing to any of these, I would happily take suggestions or code submissions, or make this repository accessible to collaborators.
 
