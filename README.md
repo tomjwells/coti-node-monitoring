@@ -38,9 +38,9 @@ docker --version
 docker-compose --version
 ```
 
-## DNS Settings (Docker users only)
+## DNS Settings (Docker installated nodes only)
 
-For Docker users, the monitoring system is set up to be accessed from the url `https://monitoring.<your-node-url>`. If you have not set up a subdomain record with your DNS provider, it is likely you will need to do this to make that url accessible.
+For users whose nodes are installed with Docker, the monitoring system is set up to be accessed from the url `https://monitoring.<your-node-url>`. If you have not set up a subdomain record with your DNS provider, it is likely you will need to do this to make that url accessible.
 
 To do this, you can either add a wildcard subdomain (`*`), or the specific subdomain you intend to set up (`monitoring.`). In my case I went with a wildcard subdomain, and my working DNS configuration looks like
 
