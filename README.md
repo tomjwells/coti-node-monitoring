@@ -110,7 +110,9 @@ docker-compose -f docker-compose-systemd.yml up
 
 This pulls the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
 
-## Logging in to Grafana
+# Using Grafana
+
+## Logging In
 
 Grafana usually takes between 10-30 seconds to become ready, so after some seconds, navigate in your browser to `monitoring.<your-node-url>` (Docker installs) or `<your-node-url>/monitoring` (Systemd installs). If everything is working, you will see the Grafana sign-in page:
 
@@ -124,7 +126,7 @@ then congrats, you did it!
 
 🎉
 
-# Using Grafana
+## Features
 
 I wish to cover some of the features that come out-of-the-box with this installation method. These could be improved and extended further over time and I would welcome improvements and suggestions from others.
 
