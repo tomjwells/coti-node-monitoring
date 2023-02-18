@@ -84,7 +84,7 @@ Check whether the Docker network has been created with `docker network ls`. If y
 
 # 🏃 Running the Monitoring Stack
 
-## Docker Installated Nodes
+## Docker Installed Nodes
 
 Now you are ready to run the monitoring stack! If your node is installed with Docker, run
 
@@ -94,7 +94,7 @@ docker-compose up
 
 This pulls the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
 
-## Systemd Installationed Nodes
+## Systemd Installed Nodes
 
 First we need to modify the web server configuration. I have included a script which makes the necessary changes for you. Make sure you are logged in as the root user with `sudo su`. Then, the script can be run with
 
