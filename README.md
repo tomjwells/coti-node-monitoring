@@ -72,7 +72,7 @@ where
 
 Feel free to make up your own username, or you can use your email associated with your Coti node. For the password, either choose your own or use `tr -dc A-Za-z0-9 </dev/urandom | head -c 64` to generate one from a shell.
 
-# 🏃 Running the Monitoring Stack
+## 3. Create the `gateway` network
 
 If you followed the <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a>, you will already have a network called `gateway` running. You can check the Docker networks with `docker network ls`. If your node is running with systemd, or the network was not created somehow, you can create the `gateway` network with
 
@@ -82,7 +82,9 @@ docker network create --driver=bridge --attachable --internal=false gateway
 
 Check whether the Docker network has been created with `docker network ls`. If you see the `gateway` network in the output, then you are ready to continue.
 
-## Run the Monitoring Stack (Docker Installations)
+# 🏃 Running the Monitoring Stack
+
+## Docker Installated Nodes
 
 Now you are ready to run the monitoring stack! If your node is installed with Docker, run
 
@@ -92,7 +94,7 @@ docker-compose up
 
 This pulls the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
 
-## Run the Monitoring Stack (Systemd Installations)
+## Systemd Installationed Nodes
 
 First we need to modify the web server configuration. I have included a script which makes the necessary changes for you. Make sure you are logged in as the root user with `sudo su`. Then, the script can be run with
 
