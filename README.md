@@ -23,7 +23,7 @@ This method provides:
 
 This installation guide produces working setups for nodes installed both with systemd (a.k.a. <a href="https://cotidocs.geordier.co.uk/">GeordieR's installation scripts</a>) and with docker (for example <a href="https://github.com/tomjwells/coti-node" target="_blank">this Coti-Docker installation guide</a>), although the instructions for each installation type differ at certain points.
 
-If `docker` and `docker-compose` are not already installed on your system, you will need to run the following commands to install `docker` and `docker-compose`:
+If `docker` and `docker-compose` are not already installed on your system, you will need to run the following commands to install them:
 
 ```
 sudo su
@@ -70,7 +70,7 @@ where
 - `GRAFANA_USERNAME` is the username you wish to use for logging in to Grafana, and,
 - `GRAFANA_PASSWORD` is the password you wish to use for logging in to Grafana.
 
-Feel free to make up your own username, or you can use your email associated with your Coti node. For the password, either choose your own or use `tr -dc A-Za-z0-9 </dev/urandom | head -c 64` to generate one from a shell.
+You may make up your own username, or use the email associated with your Coti node. For the password, any long string that is difficult to guess will be suitable.
 
 ## 3. Create the `gateway` network
 
@@ -96,7 +96,7 @@ This pulls the monitoring software for you and launches it once it is downloaded
 
 ## Systemd Installed Nodes
 
-First we need to modify the web server configuration. I have included a script which makes the necessary changes for you. Make sure you are logged in as the root user with `sudo su`. Then, the script can be run with
+First we need to add some paths to the web server configuration. I have included a script which makes the necessary changes for you. Make sure you are logged in as the root user with `sudo su`. Then, the script can be run with
 
 ```
 ./configure-webserver.sh
@@ -108,7 +108,7 @@ Now you are ready to run the monitoring stack! If your node is running with syst
 docker-compose -f docker-compose-systemd.yml up
 ```
 
-This pulls the monitoring software for you and launches it once it is downloaded. If everything goes successfully, you are done.
+This pulls the monitoring software for you and launches it once it is downloaded. If everything is successful, you are done.
 
 # Using Grafana
 
@@ -141,7 +141,7 @@ Out of the box features
   - <a href="https://prometheus.io/docs/visualization/grafana/" target="_blank">Prometheus</a>
   - <a href="https://grafana.com/oss/loki/" target="_blank">Loki</a>
 
-While the dashboards are more immediately useful and give lots of information about the state of your node, the preconfigured Grafana datasources will allow you to create your own custom queries and graphs.
+While the dashboards are immediately useful and give lots of information about the state of your node, the preconfigured Grafana datasources allow you to create your own custom queries and graphs.
 
 # Useful Docker Management Commands
 
