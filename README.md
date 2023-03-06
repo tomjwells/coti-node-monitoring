@@ -4,8 +4,8 @@
 <p align="center">An easy method to configure public and private monitoring for Coti nodes. This setup is compatible with nodes installed with Systemd or Docker.</p>
 
 <p align="center">
-	<a href="https://github.com/tj-wells/coti-node-monitoring"><img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/tj-wells/coti-node-monitoring"></a>
-    <a href="https://twitter.com/intent/tweet?text=I%20just%20installed%20%24COTI%20node%20monitoring%20with%20%40tomjwells%27%20Docker%20installation%20method.%20It%20worked%20like%20a%20charm%21%20and%20looks%20great%0A%0A%F0%9F%94%A5%0A%0Ahttps%3A%2F%2Fgithub.com%2Ftj-wells%2Fcoti-node-monitoring%0A%0A%23COTI%20%24DJED%20%24SHEN%20%20"><img src="https://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
+	<a href="https://github.com/tomjwells/coti-node-monitoring"><img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/tomjwells/coti-node-monitoring"></a>
+    <a href="https://twitter.com/intent/tweet?text=I%20just%20installed%20%24COTI%20node%20monitoring%20with%20%40tomjwells%27%20Docker%20installation%20method.%20It%20worked%20like%20a%20charm%21%20and%20looks%20great%0A%0A%F0%9F%94%A5%0A%0Ahttps%3A%2F%2Fgithub.com%2Ftomjwells%2Fcoti-node-monitoring%0A%0A%23COTI%20%24DJED%20%24SHEN%20%20"><img src="https://randojs.com/images/tweetShield.svg" alt="Tweet" height="20"/></a>
 </p><br/>
 
 <p align="center"><a href="https://public.testnet.atomnode.tomoswells.com"><img src="https://media.discordapp.net/attachments/995792094088155227/1070497353968128041/Screenshot_2023-02-02_at_00.14.12.png?width=1493&height=825" width="100%" /></a></p><br/>
@@ -21,7 +21,7 @@ This method provides:
 
 # Installation Instructions
 
-This installation guide produces working setups for nodes installed both with systemd (a.k.a. <a href="https://cotidocs.geordier.co.uk/">GeordieR's installation scripts</a>) and with docker (for example <a href="https://github.com/tj-wells/coti-node" target="_blank">this Coti-Docker installation guide</a>), although the instructions for each installation type differ at certain points.
+This installation guide produces working setups for nodes installed both with systemd (a.k.a. <a href="https://cotidocs.geordier.co.uk/">GeordieR's installation scripts</a>) and with docker (for example <a href="https://github.com/tomjwells/coti-node" target="_blank">this Coti-Docker installation guide</a>), although the instructions for each installation type differ at certain points.
 
 If `docker` and `docker-compose` are not already installed on your system, you will need to run the following commands to install `docker` and `docker-compose`:
 
@@ -51,7 +51,7 @@ To do this, you can either add a wildcard subdomain (`*`), or the specific subdo
 To keep things organized, I suggest having your Coti node located under the directory `~/coti-node`. We will install the monitoring setup alongside that directory, under `~/coti-node-monitoring`. From your home directory, run
 
 ```
-git clone https://github.com/tj-wells/coti-node-monitoring.git && cd coti-node-monitoring
+git clone https://github.com/tomjwells/coti-node-monitoring.git && cd coti-node-monitoring
 ```
 
 ## 2. Create a `.env` File
@@ -74,7 +74,7 @@ Feel free to make up your own username, or you can use your email associated wit
 
 ## 3. Create the `gateway` network
 
-If you followed the <a href="https://github.com/tj-wells/coti-node" target="_blank">Coti-Docker installation guide</a>, you will already have a network called `gateway` running. You can check the Docker networks with `docker network ls`. If your node is running with systemd, or the network was not created somehow, you can create the `gateway` network with
+If you followed the <a href="https://github.com/tomjwells/coti-node" target="_blank">Coti-Docker installation guide</a>, you will already have a network called `gateway` running. You can check the Docker networks with `docker network ls`. If your node is running with systemd, or the network was not created somehow, you can create the `gateway` network with
 
 ```
 docker network create --driver=bridge --attachable --internal=false gateway

@@ -35,7 +35,7 @@
       "title": "Github",
       "tooltip": "",
       "type": "link",
-      "url": "https://github.com/tj-wells/coti-node-monitoring"
+      "url": "https://github.com/tomjwells/coti-node-monitoring"
     }
   ],
   "liveNow": false,
@@ -97,9 +97,7 @@
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -184,9 +182,7 @@
         "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -541,12 +537,7 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max",
-            "min"
-          ],
+          "calcs": ["mean", "lastNotNull", "max", "min"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -648,9 +639,7 @@
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -733,9 +722,7 @@
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -815,9 +802,7 @@
         "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "allValues"
-          ],
+          "calcs": ["allValues"],
           "fields": "",
           "values": true
         },
@@ -865,9 +850,7 @@
                 "operation": "groupby"
               },
               "id": {
-                "aggregations": [
-                  "count"
-                ],
+                "aggregations": ["count"],
                 "operation": "aggregate"
               },
               "uri": {
@@ -1215,11 +1198,7 @@
           "id": "filterFieldsByName",
           "options": {
             "include": {
-              "names": [
-                "stderr",
-                "stdout",
-                "Time"
-              ]
+              "names": ["stderr", "stdout", "Time"]
             }
           }
         }
