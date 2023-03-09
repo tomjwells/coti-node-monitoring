@@ -68,6 +68,10 @@ services:
       - ./config/loki:/etc/loki
     restart: unless-stopped
     command: -config.file=/etc/loki/config.yaml
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   promtail:
     container_name: promtail
@@ -81,6 +85,10 @@ services:
     command: -config.file=/etc/promtail/config.yaml
     depends_on:
       - loki
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   nodeexporter:
     image: prom/node-exporter:v0.18.1
@@ -95,6 +103,10 @@ services:
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
     restart: unless-stopped
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   prometheus:
     image: prom/prometheus:v2.41.0
@@ -110,7 +122,11 @@ services:
       - '--storage.tsdb.retention.time=200h'
       - '--web.enable-lifecycle'
     restart: unless-stopped
-
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+        
   # DB for Grafana
   postgres:
     container_name: postgres
