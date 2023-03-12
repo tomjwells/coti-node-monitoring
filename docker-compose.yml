@@ -55,6 +55,14 @@ services:
       GF_DATABASE_USER: postgres
       GF_DATABASE_PASSWORD: internal_password
       GF_DATABASE_SSL_MODE: disable
+      # Email Alert Configs
+      GF_SMTP_ENABLED: true
+      GF_SMTP_HOST: smtp.gmail.com:587
+      GF_SMTP_USER: ${GRAFANA_EMAIL_ALERT_TO_ADDRESS}
+      GF_SMTP_PASSWORD: ${GRAFANA_EMAIL_ALERT_PASSWORD}
+      GF_SMTP_SKIP_VERIFY: true
+      GF_SMTP_FROM_ADDRESS: grafana.monitoringalert@gmail.com
+      GF_SMTP_FROM_NAME: Grafana
     depends_on:
       - prometheus
       - postgres
@@ -102,6 +110,7 @@ services:
     volumes:
       - ./config/prometheus:/etc/prometheus
       - prometheus:/prometheus # Makes lose data when you destroy containers # May be that this prob is most easily solved with Grafana cloud
+      # Causes the error "opening storage failed: lock DB directory: resource temporarily unavailable"
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
