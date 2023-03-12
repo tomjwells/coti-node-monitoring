@@ -39,16 +39,14 @@
       "url": "https://grafana.com/grafana/dashboards/11074"
     },
     {
-      "asDropdown": false,
+      "$$hashKey": "object:2301",
       "icon": "question",
-      "includeVars": false,
-      "keepTime": false,
       "tags": [],
-      "targetBlank": false,
-      "title": "Github",
-      "tooltip": "",
+      "targetBlank": true,
+      "title": "GitHub",
+      "tooltip": "more dashboard",
       "type": "link",
-      "url": "https://github.com/tj-wells/coti-node-monitoring"
+      "url": "https://github.com/tomjwells/coti-node-monitoring"
     },
     {
       "$$hashKey": "object:2302",
@@ -119,7 +117,9 @@
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -203,7 +203,9 @@
         "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": ["last"],
+          "calcs": [
+            "last"
+          ],
           "fields": "",
           "values": false
         },
@@ -273,27 +275,52 @@
       "type": "bargauge"
     },
     {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
-          "displayName": "$__cell_0",
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
           "mappings": [],
-          "min": 0,
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "purple",
+                "color": "red",
                 "value": 80
               }
             ]
@@ -303,77 +330,95 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 11,
+        "w": 12,
         "x": 5,
         "y": 0
       },
-      "id": 197,
+      "id": 191,
       "options": {
-        "displayMode": "gradient",
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": ["allValues"],
-          "fields": "",
-          "values": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
         },
-        "showUnfilled": true,
-        "text": {}
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
             "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
+            "uid": "${DS_LOKI}"
           },
           "editorMode": "code",
-          "expr": "{container_name=\"traefik\"} |= \"Request=\" != \"monitoring\" | pattern `<_> Request=\"<request>\"`",
-          "hide": false,
+          "expr": "{container_name=\"coti-node\"} |= \"i.c.b.services.BaseNodeMonitorService \" != \"MonitorService is up\" | pattern `<_> Sources = <Sources>, DSPHealthState = <DSPHealthState>, DSPOutsideNormalCounter = <DSPOutsideNormalCounter>, TCCHealthState = <TCCHealthState>, TCCWaitingConfirmation = <TCCWaitingConfirmation>, TCCOutsideNormalCounter = <TCCOutsideNormalCounter>, PostponedTransactions = <PostponedTransactions>, PropagationQueue = <PropagationQueue>, WebSocketMessagesQueueLength = <WebSocketMessagesQueueLength>, waitingDspConsensus = <waitingDspConsensus>, confirmationQueueSize = <confirmationQueueSize>, percentageUsedHeapMemory = <percentageUsedHeapMemory>%, percentageUsedMemory = <percentageUsedMemory>%,`",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Request Count",
+      "title": "Stats",
       "transformations": [
         {
           "id": "extractFields",
           "options": {
-            "format": "kvp",
-            "replace": false,
-            "source": "Line"
+            "format": "auto",
+            "source": "labels"
           }
         },
         {
-          "id": "extractFields",
+          "id": "convertFieldType",
           "options": {
-            "format": "json",
-            "replace": false,
-            "source": "Request"
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "RequestURI": {
-                "aggregations": [],
-                "operation": "groupby"
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "Sources"
               },
-              "id": {
-                "aggregations": ["count"],
-                "operation": "aggregate"
+              {
+                "destinationType": "number",
+                "targetField": "DSPOutsideNormalCounter"
               },
-              "uri": {
-                "aggregations": [],
-                "operation": "groupby"
+              {
+                "destinationType": "number",
+                "targetField": "PostponedTransactions"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "PropagationQueue"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "TCCHealthState"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "TCCOutsideNormalCounter"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "TCCWaitingConfirmation"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "WebSocketMessagesQueueLength"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "confirmationQueueSize"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "waitingDspConsensus"
               }
-            }
+            ],
+            "fields": {}
           }
         }
       ],
-      "type": "bargauge"
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -470,15 +515,17 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 16,
+        "w": 7,
+        "x": 17,
         "y": 0
       },
       "id": 193,
       "options": {
         "footer": {
           "fields": "",
-          "reducer": ["sum"],
+          "reducer": [
+            "sum"
+          ],
           "show": false
         },
         "showHeader": true,
@@ -669,7 +716,9 @@
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -751,7 +800,9 @@
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -778,52 +829,27 @@
       "type": "stat"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
+          "displayName": "$__cell_0",
           "mappings": [],
+          "min": 0,
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
-                "color": "green",
+                "color": "blue",
                 "value": null
               },
               {
-                "color": "red",
+                "color": "purple",
                 "value": 80
               }
             ]
@@ -832,220 +858,90 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 12,
+        "h": 8,
+        "w": 5,
         "x": 0,
         "y": 6
       },
-      "id": 191,
+      "id": 197,
       "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "allValues"
+          ],
+          "fields": "",
+          "values": true
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "showUnfilled": true,
+        "text": {}
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.3.6",
       "targets": [
         {
           "datasource": {
             "type": "loki",
-            "uid": "${DS_LOKI}"
+            "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "{container_name=\"coti-node\"} |= \"i.c.b.services.BaseNodeMonitorService \" != \"MonitorService is up\" | pattern `<_> Sources = <Sources>, DSPHealthState = <DSPHealthState>, DSPOutsideNormalCounter = <DSPOutsideNormalCounter>, TCCHealthState = <TCCHealthState>, TCCWaitingConfirmation = <TCCWaitingConfirmation>, TCCOutsideNormalCounter = <TCCOutsideNormalCounter>, PostponedTransactions = <PostponedTransactions>, PropagationQueue = <PropagationQueue>, WebSocketMessagesQueueLength = <WebSocketMessagesQueueLength>, waitingDspConsensus = <waitingDspConsensus>, confirmationQueueSize = <confirmationQueueSize>, percentageUsedHeapMemory = <percentageUsedHeapMemory>%, percentageUsedMemory = <percentageUsedMemory>%,`",
+          "expr": "{container_name=\"traefik\"} |= \"Request=\" != \"monitoring\" | pattern `<_> Request=\"<request>\"`",
+          "hide": false,
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Stats",
+      "title": "Request Count",
       "transformations": [
         {
           "id": "extractFields",
           "options": {
-            "format": "auto",
-            "source": "labels"
+            "format": "kvp",
+            "replace": false,
+            "source": "Line"
           }
         },
         {
-          "id": "convertFieldType",
+          "id": "extractFields",
           "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": "Sources"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "DSPOutsideNormalCounter"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "PostponedTransactions"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "PropagationQueue"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "TCCHealthState"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "TCCOutsideNormalCounter"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "TCCWaitingConfirmation"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "WebSocketMessagesQueueLength"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "confirmationQueueSize"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "waitingDspConsensus"
-              }
-            ],
-            "fields": {}
+            "format": "json",
+            "replace": false,
+            "source": "Request"
           }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "datasource": {},
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisSoftMax": 100,
-            "axisSoftMin": 0,
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "RequestURI": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "id": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "uri": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
             }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 6
-      },
-      "id": 200,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "pluginVersion": "9.3.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "${DS_LOKI}"
-          },
-          "editorMode": "code",
-          "expr": "{container_name=\"coti-node\"} |= \"i.c.b.services.BaseNodeMonitorService \" != \"MonitorService is up\" | pattern `<_> Sources = <Sources>, DSPHealthState = <DSPHealthState>, DSPOutsideNormalCounter = <DSPOutsideNormalCounter>, TCCHealthState = <TCCHealthState>, TCCWaitingConfirmation = <TCCWaitingConfirmation>, TCCOutsideNormalCounter = <TCCOutsideNormalCounter>, PostponedTransactions = <PostponedTransactions>, PropagationQueue = <PropagationQueue>, WebSocketMessagesQueueLength = <WebSocketMessagesQueueLength>, waitingDspConsensus = <waitingDspConsensus>, confirmationQueueSize = <confirmationQueueSize>, percentageUsedHeapMemory = <percentageUsedHeapMemory>%, percentageUsedMemory = <percentageUsedMemory>%,`",
-          "queryType": "range",
-          "refId": "A"
-        }
-      ],
-      "title": "In-app Memory Usage",
-      "transformations": [
-        {
-          "id": "extractFields",
-          "options": {
-            "format": "auto",
-            "source": "labels"
-          }
-        },
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": "percentageUsedHeapMemory"
-              },
-              {
-                "destinationType": "number",
-                "targetField": "percentageUsedMemory"
-              }
-            ],
-            "fields": {}
           }
         }
       ],
-      "type": "timeseries"
+      "type": "bargauge"
     },
     {
       "datasource": {},
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 12
+        "x": 5,
+        "y": 6
       },
       "id": 195,
       "options": {
@@ -1222,9 +1118,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 12
+        "w": 7,
+        "x": 17,
+        "y": 6
       },
       "id": 199,
       "maxDataPoints": 100,
@@ -1261,7 +1157,11 @@
           "id": "filterFieldsByName",
           "options": {
             "include": {
-              "names": ["stderr", "stdout", "Time"]
+              "names": [
+                "stderr",
+                "stdout",
+                "Time"
+              ]
             }
           }
         }
@@ -1278,7 +1178,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 14
       },
       "id": 187,
       "panels": [],
@@ -1304,7 +1204,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 21
+        "y": 15
       },
       "id": 189,
       "panels": [],
@@ -1357,7 +1257,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 22
+        "y": 16
       },
       "hiddenSeries": false,
       "id": 7,
@@ -1526,7 +1426,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 22
+        "y": 16
       },
       "height": "300",
       "hiddenSeries": false,
@@ -1748,7 +1648,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 22
+        "y": 16
       },
       "height": "300",
       "hiddenSeries": false,
@@ -1880,7 +1780,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 30
+        "y": 24
       },
       "height": "300",
       "hiddenSeries": false,
@@ -2041,7 +1941,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 30
+        "y": 24
       },
       "height": "300",
       "hiddenSeries": false,
@@ -2167,7 +2067,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 30
+        "y": 24
       },
       "hiddenSeries": false,
       "id": 174,
@@ -2296,7 +2196,7 @@
         "h": 9,
         "w": 8,
         "x": 0,
-        "y": 38
+        "y": 32
       },
       "height": "300",
       "hiddenSeries": false,
@@ -2448,7 +2348,7 @@
         "h": 9,
         "w": 8,
         "x": 8,
-        "y": 38
+        "y": 32
       },
       "hiddenSeries": false,
       "id": 175,
@@ -2554,7 +2454,7 @@
         "h": 9,
         "w": 8,
         "x": 16,
-        "y": 38
+        "y": 32
       },
       "height": "300",
       "hiddenSeries": false,
@@ -2712,7 +2612,7 @@
         "h": 8,
         "w": 16,
         "x": 0,
-        "y": 47
+        "y": 41
       },
       "height": "300",
       "hiddenSeries": false,
@@ -2946,7 +2846,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 47
+        "y": 41
       },
       "hiddenSeries": false,
       "hideTimeOverride": false,
@@ -3318,8 +3218,8 @@
       {
         "current": {
           "selected": false,
-          "text": "149a2eb2519b",
-          "value": "149a2eb2519b"
+          "text": "2ae067473869",
+          "value": "2ae067473869"
         },
         "datasource": {
           "type": "prometheus",
@@ -3384,8 +3284,25 @@
   "timepicker": {
     "hidden": false,
     "now": true,
-    "refresh_intervals": ["15s", "30s", "1m", "5m", "15m", "30m"],
-    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
+    "refresh_intervals": [
+      "15s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
   },
   "timezone": "browser",
   "title": "Coti Private Dashboard",

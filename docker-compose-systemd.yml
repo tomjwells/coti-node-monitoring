@@ -16,21 +16,10 @@ volumes:
 services:
   grafana:
     container_name: grafana
-    labels:
-      traefik.frontend.rule: monitoring.${SERVERNAME}" # Necessary
-      # SSL redirect requires a separate router (https://github.com/containous/traefik/issues/4688#issuecomment-477800500)
-      traefik.http.routers.grafana.entryPoints: port80
-      traefik.http.routers.grafana.rule: host(`monitoring.${SERVERNAME}`)
-      traefik.http.middlewares.grafana-redirect.redirectScheme.scheme: https
-      traefik.http.middlewares.grafana-redirect.redirectScheme.permanent: true
-      traefik.http.routers.grafana.middlewares: grafana-redirect
-      # SSL endpoint
-      traefik.http.routers.grafana-ssl.entryPoints: port443
-      traefik.http.routers.grafana-ssl.rule: host(`monitoring.${SERVERNAME}`)
-      traefik.http.routers.grafana-ssl.tls: true
-      traefik.http.routers.grafana-ssl.tls.certResolver: le-ssl
-      traefik.http.routers.grafana-ssl.service: grafana-ssl
-      traefik.http.services.grafana-ssl.loadBalancer.server.port: 3000
+    expose:
+      - 3000
+    ports:
+      - '3000:3000'
     image: grafana/grafana:latest
     user: '0'
     restart: unless-stopped
@@ -42,8 +31,9 @@ services:
       - ./config/grafana/favicon.png:/usr/share/grafana/public/img/fav32.png
     environment:
       # Note: may need to rm (refresh) the grafana volume when changing these
-      GF_SERVER_DOMAIN: monitoring.${SERVERNAME}
-      GF_SERVER_ROOT_URL: https://monitoring.${SERVERNAME}
+      GF_SERVER_DOMAIN: ${SERVERNAME}
+      GF_SERVER_ROOT_URL: https://${SERVERNAME}/monitoring
+      # GF_SERVER_
       GF_SECURITY_ADMIN_USER: ${GRAFANA_USERNAME}
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
       GF_USERS_ALLOW_SIGN_UP: false
@@ -55,14 +45,6 @@ services:
       GF_DATABASE_USER: postgres
       GF_DATABASE_PASSWORD: internal_password
       GF_DATABASE_SSL_MODE: disable
-      # Email Alert Configs
-      GF_SMTP_ENABLED: true
-      GF_SMTP_HOST: smtp.gmail.com:587
-      GF_SMTP_USER: ${GRAFANA_EMAIL_ALERT_TO_ADDRESS}
-      GF_SMTP_PASSWORD: ${GRAFANA_EMAIL_ALERT_PASSWORD}
-      GF_SMTP_SKIP_VERIFY: true
-      GF_SMTP_FROM_ADDRESS: grafana.monitoringalert@gmail.com
-      GF_SMTP_FROM_NAME: Grafana
     depends_on:
       - prometheus
       - postgres
@@ -76,10 +58,6 @@ services:
       - ./config/loki:/etc/loki
     restart: unless-stopped
     command: -config.file=/etc/loki/config.yaml
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
 
   promtail:
     container_name: promtail
@@ -89,14 +67,11 @@ services:
       - ./config/promtail:/etc/promtail
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
+      - /home/coti/coti-node/logs/FullNode1.log:/var/log/coti-node.log
     restart: unless-stopped
     command: -config.file=/etc/promtail/config.yaml
     depends_on:
       - loki
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
 
   nodeexporter:
     image: prom/node-exporter:v0.18.1
@@ -111,18 +86,13 @@ services:
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
     restart: unless-stopped
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
 
   prometheus:
     image: prom/prometheus:v2.41.0
     container_name: prometheus
     volumes:
       - ./config/prometheus:/etc/prometheus
-      - prometheus:/prometheus # Makes lose data when you destroy containers # May be that this prob is most easily solved with Grafana cloud
-      # Causes the error "opening storage failed: lock DB directory: resource temporarily unavailable"
+      # - prometheus:/prometheus # Makes lose data when you destroy containers
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -131,11 +101,7 @@ services:
       - '--storage.tsdb.retention.time=200h'
       - '--web.enable-lifecycle'
     restart: unless-stopped
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
-        
+
   # DB for Grafana
   postgres:
     container_name: postgres
@@ -148,3 +114,4 @@ services:
       POSTGRES_DB: grafana
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: internal_password
+

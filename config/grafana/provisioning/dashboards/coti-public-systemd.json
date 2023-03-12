@@ -24,6 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 68,
   "links": [
     {
       "asDropdown": false,
@@ -64,8 +65,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -152,8 +152,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "#EAB839",
@@ -171,7 +170,7 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 10,
+        "w": 6,
         "x": 2,
         "y": 0
       },
@@ -283,8 +282,8 @@
       "grid": {},
       "gridPos": {
         "h": 9,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 8,
         "y": 0
       },
       "height": "300",
@@ -430,8 +429,6 @@
         "type": "prometheus",
         "uid": "ex8kbm04z"
       },
-<<<<<<< HEAD
-=======
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -473,8 +470,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -591,7 +587,6 @@
         "type": "prometheus",
         "uid": "ex8kbm04z"
       },
->>>>>>> 3ab2e366eb158a0c71c6c79ca1fe0a0c2ed8233c
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -610,8 +605,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -693,8 +687,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -760,17 +753,6 @@
         "y": 9
       },
       "id": 14,
-      "title": "Row",
-      "type": "row"
-    },
-    {
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 10
-      },
-      "id": 14,
       "title": "Logs Analysis",
       "type": "row"
     },
@@ -784,18 +766,15 @@
           "color": {
             "mode": "thresholds"
           },
-          "displayName": "$__cell_0",
           "mappings": [],
-          "min": 0,
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
+                "color": "green"
               },
               {
-                "color": "purple",
+                "color": "red",
                 "value": 80
               }
             ]
@@ -807,21 +786,20 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 11
+        "y": 10
       },
-      "id": 2,
+      "id": 40,
       "options": {
         "displayMode": "gradient",
         "minVizHeight": 10,
         "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": ["allValues"],
+          "calcs": ["lastNotNull"],
           "fields": "",
-          "values": true
+          "values": false
         },
-        "showUnfilled": true,
-        "text": {}
+        "showUnfilled": true
       },
       "pluginVersion": "9.3.6",
       "targets": [
@@ -831,309 +809,13 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "{container_name=\"traefik\"} |= \"Request=\" != \"monitoring\" != \"worldmap\" | pattern `<_> Request=\"<request>\"`",
-          "hide": false,
+          "expr": "sum(count_over_time({job=\"nginx\"} != \"monitoring\" != \".env\" != \"acme\" | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <_> <_> \"<_>\" <_>` [1m])) by (path)",
           "queryType": "range",
           "refId": "A"
         }
       ],
       "title": "Requests in the last hour",
-      "transformations": [
-        {
-          "id": "extractFields",
-          "options": {
-            "format": "kvp",
-            "replace": false,
-            "source": "Line"
-          }
-        },
-        {
-          "id": "extractFields",
-          "options": {
-            "format": "json",
-            "replace": false,
-            "source": "Request"
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "RequestURI": {
-                "aggregations": [],
-                "operation": "groupby"
-              },
-              "id": {
-                "aggregations": ["count"],
-                "operation": "aggregate"
-              },
-              "uri": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        }
-      ],
       "type": "bargauge"
-    },
-    {
-      "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 11
-      },
-      "id": 30,
-      "maxDataPoints": 400,
-      "options": {
-        "barRadius": 0.15,
-        "barWidth": 0.72,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "orientation": "vertical",
-        "showValue": "auto",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        },
-        "xField": "Time",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 100
-      },
-      "pluginVersion": "9.3.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
-          },
-          "editorMode": "code",
-          "expr": "sum by (level) (count_over_time({container_name=\"coti-node\"}[2m]))\n\n",
-          "hide": false,
-          "queryType": "range",
-          "refId": "A",
-          "resolution": 2
-        }
-      ],
-      "title": "Coti Node Log Count",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "ex8kbm04z"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "transmit（-）/receive（+）",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "links": [],
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "bps"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "192.168.10.227:9100_em1_in下载"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "super-light-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "192.168.10.227:9100_em1_out上传"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.*_transmit$/"
-            },
-            "properties": [
-              {
-                "id": "custom.transform",
-                "value": "negative-Y"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 20
-      },
-      "id": 38,
-      "links": [],
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "pluginVersion": "9.3.6",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ex8kbm04z"
-          },
-          "editorMode": "code",
-          "expr": "rate(node_network_receive_bytes_total{instance=~'nodeexporter:9100',device=~\"eth0\"}[$__interval])*8",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "{{device}}_transmit",
-          "range": true,
-          "refId": "A",
-          "step": 4
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ex8kbm04z"
-          },
-          "editorMode": "code",
-          "expr": "rate(node_network_transmit_bytes_total{instance=~'nodeexporter:9100',device=~\"eth0\"}[$__interval])*8",
-          "format": "time_series",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "{{device}}_transmit",
-          "range": true,
-          "refId": "B",
-          "step": 4
-        }
-      ],
-      "title": "Network bandwidth usage per second",
-      "type": "timeseries"
     },
     {
       "aliasColors": {
@@ -1160,7 +842,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 20
+        "y": 10
       },
       "height": "300",
       "hiddenSeries": false,
@@ -1284,8 +966,6 @@
       }
     },
     {
-<<<<<<< HEAD
-=======
       "datasource": {
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
@@ -1302,16 +982,16 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "points",
-            "fillOpacity": 100,
-            "gradientMode": "none",
+            "drawStyle": "line",
+            "fillOpacity": 36,
+            "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "stepBefore",
-            "lineWidth": 0,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -1331,8 +1011,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -1437,7 +1116,7 @@
         "x": 0,
         "y": 19
       },
-      "id": 36,
+      "id": 42,
       "maxDataPoints": 100,
       "options": {
         "legend": {
@@ -1458,7 +1137,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum by (level) (count_over_time({container_name=\"traefik\"} | pattern `<_> level=<level> msg=<_>` [1m]))",
+          "expr": "sum(count_over_time({job=\"nginx\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <_> <_> \"<_>\" <_>` [1m])) by (status)",
           "legendFormat": "",
           "queryType": "range",
           "refId": "A",
@@ -1514,8 +1193,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1563,7 +1241,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum by (level) (count_over_time({container_name=\"coti-node\"}[2m]))\n\n",
+          "expr": "sum by (level) (count_over_time({filename=\"/var/log/coti-node.log\"}[2m]))\n\n",
           "hide": false,
           "queryType": "range",
           "refId": "A",
@@ -1574,13 +1252,12 @@
       "type": "barchart"
     },
     {
->>>>>>> 3ab2e366eb158a0c71c6c79ca1fe0a0c2ed8233c
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 26
       },
       "id": 12,
       "panels": [],
@@ -1624,7 +1301,7 @@
         "h": 9,
         "w": 11,
         "x": 0,
-        "y": 30
+        "y": 27
       },
       "hiddenSeries": false,
       "id": 16,
@@ -1794,7 +1471,7 @@
         "h": 9,
         "w": 13,
         "x": 11,
-        "y": 30
+        "y": 27
       },
       "height": "300",
       "hiddenSeries": false,
@@ -2035,12 +1712,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Coti Public",
-  "uid": "4iADwvaA4z",
-<<<<<<< HEAD
-  "version": 1,
-=======
-  "version": 8,
->>>>>>> 3ab2e366eb158a0c71c6c79ca1fe0a0c2ed8233c
+  "title": "Coti Public (Systemd)",
+  "uid": "lkwTM1JVz",
+  "version": 3,
   "weekStart": ""
 }
