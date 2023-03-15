@@ -42,16 +42,6 @@ datasources:
     jsonData:
       maxLines: 2000
       timeout: 300
-      # graphiteVersion: '1.1'
-      # tlsAuth: false
-      # tlsAuthWithCACert: false
-    # <string> json object of data that will be encrypted.
-    # secureJsonData:
-    #   tlsCACert: '...'
-    #   tlsClientCert: '...'
-    #   tlsClientKey: '...'
-    # version: 1
-    # <bool> allow users to edit datasources from the UI.
     editable: false
   # <string, required> name of the datasource. Required
   - name: Infinity
