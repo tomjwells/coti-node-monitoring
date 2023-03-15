@@ -121,7 +121,7 @@ services:
     container_name: prometheus
     volumes:
       - ./config/prometheus:/etc/prometheus
-      - prometheus:/prometheus # Makes lose data when you destroy containers # May be that this prob is most easily solved with Grafana cloud
+      #- prometheus:/prometheus
       # Causes the error "opening storage failed: lock DB directory: resource temporarily unavailable"
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
