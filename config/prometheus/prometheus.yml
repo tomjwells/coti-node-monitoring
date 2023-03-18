@@ -31,6 +31,7 @@ scrape_configs:
   - job_name: 'traefik'
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
+    # metrics_path: '/traefik'
     static_configs:
       - targets: ['traefik:8080']
   # - job_name: 'pushgateway'

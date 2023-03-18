@@ -28,12 +28,14 @@ querier:
   engine:
     timeout: 10m
   query_timeout: 10m
+  max_concurrent: 2048
 
 # https://github.com/grafana/loki/issues/5123#issuecomment-1167018445
 query_scheduler:
-  max_outstanding_requests_per_tenant: 100
+  max_outstanding_requests_per_tenant: 1024
 frontend:
-  max_outstanding_per_tenant: 100
+  max_outstanding_per_tenant: 4096
+  compress_responses: true
 limits_config:
   split_queries_by_interval: 5m
   max_query_parallelism: 32

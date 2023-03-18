@@ -125,7 +125,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -211,7 +211,7 @@
         },
         "showUnfilled": true
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -432,7 +432,9 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
             "inspect": false
           },
           "mappings": [],
@@ -522,6 +524,7 @@
       "id": 193,
       "options": {
         "footer": {
+          "countRows": false,
           "fields": "",
           "reducer": [
             "sum"
@@ -531,7 +534,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "columns": [
@@ -724,7 +727,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -808,7 +811,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
@@ -830,110 +833,245 @@
     },
     {
       "datasource": {
-        "type": "loki",
-        "uid": "P8E80F9AEF21F6940"
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "PD0067CAD9A63E081"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "displayName": "$__cell_0",
           "mappings": [],
-          "min": 0,
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 0,
+        "y": 6
+      },
+      "id": 201,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.3",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "PD0067CAD9A63E081"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://testnet.atomnode.tomoswells.com/transaction/lastIndex",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Node Transaction Index",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "PD0067CAD9A63E081"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "Synced"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "from": 10,
+                "result": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "Unsynced"
+                },
+                "to": 1000000000
+              },
+              "type": "range"
+            }
+          ],
+          "max": 10,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
                 "value": null
               },
               {
-                "color": "purple",
-                "value": 80
+                "color": "#EAB839",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 8
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 5,
-        "x": 0,
+        "w": 3,
+        "x": 2,
         "y": 6
       },
-      "id": 197,
+      "id": 205,
       "options": {
-        "displayMode": "gradient",
-        "minVizHeight": 10,
-        "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "allValues"
+            "uniqueValues"
           ],
-          "fields": "",
-          "values": true
+          "fields": "/^A Delta$/",
+          "values": false
         },
-        "showUnfilled": true,
-        "text": {}
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
+          "$$hashKey": "object:130",
+          "aggregation": "Last",
+          "columns": [
+            {
+              "selector": "lastIndex",
+              "text": "Financial Server Index",
+              "type": "string"
+            }
+          ],
           "datasource": {
-            "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "PD0067CAD9A63E081"
           },
-          "editorMode": "code",
-          "expr": "{container_name=\"traefik\"} |= \"Request=\" != \"monitoring\" | pattern `<_> Request=\"<request>\"`",
+          "decimals": 2,
+          "displayAliasType": "Warning / Critical",
+          "displayType": "Regular",
+          "displayValueWithAlias": "Never",
+          "filters": [],
+          "format": "dataframe",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "units": "none",
+          "url": "https://testnet-financialserver.coti.io/transaction/lastIndex",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "valueHandler": "Number Threshold"
+        },
+        {
+          "$$hashKey": "object:131",
+          "aggregation": "Last",
+          "columns": [
+            {
+              "selector": "lastIndex",
+              "text": "myNodeIndex",
+              "type": "string"
+            }
+          ],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "PD0067CAD9A63E081"
+          },
+          "decimals": 2,
+          "displayAliasType": "Warning / Critical",
+          "displayType": "Regular",
+          "displayValueWithAlias": "Never",
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
           "hide": false,
-          "queryType": "range",
-          "refId": "A"
+          "refId": "B",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "units": "none",
+          "url": "https://testnet-financialserver.coti.io/transaction/lastIndex",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          },
+          "valueHandler": "Number Threshold"
         }
       ],
-      "title": "Request Count",
+      "title": "Transaction Sync Status",
       "transformations": [
         {
-          "id": "extractFields",
+          "id": "calculateField",
           "options": {
-            "format": "kvp",
-            "replace": false,
-            "source": "Line"
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "A Financial Server Index",
+                "B myNodeIndex"
+              ],
+              "reducer": "delta"
+            },
+            "replaceFields": true
           }
         },
         {
-          "id": "extractFields",
+          "disabled": true,
+          "id": "joinByField",
           "options": {
-            "format": "json",
-            "replace": false,
-            "source": "Request"
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "RequestURI": {
-                "aggregations": [],
-                "operation": "groupby"
-              },
-              "id": {
-                "aggregations": [
-                  "count"
-                ],
-                "operation": "aggregate"
-              },
-              "uri": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
+            "byField": "A Delta",
+            "mode": "outer"
           }
         }
       ],
-      "type": "bargauge"
+      "type": "gauge"
     },
     {
       "datasource": {},
@@ -1169,6 +1307,76 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "PD0067CAD9A63E081"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 0,
+        "y": 10
+      },
+      "id": 203,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.4.3",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "PD0067CAD9A63E081"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://testnet-financialserver.coti.io/transaction/lastIndex",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "Network Transaction Index",
+      "type": "stat"
+    },
+    {
       "collapsed": true,
       "datasource": {
         "type": "prometheus",
@@ -1285,7 +1493,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1454,7 +1662,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1675,7 +1883,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2969,7 +3177,8 @@
     }
   ],
   "refresh": "15s",
-  "schemaVersion": 37,
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -3218,8 +3427,8 @@
       {
         "current": {
           "selected": false,
-          "text": "2ae067473869",
-          "value": "2ae067473869"
+          "text": "cd27fc964ae9",
+          "value": "cd27fc964ae9"
         },
         "datasource": {
           "type": "prometheus",

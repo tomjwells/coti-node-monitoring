@@ -131,11 +131,14 @@ services:
       - '--storage.tsdb.retention.time=200h'
       - '--web.enable-lifecycle'
     restart: unless-stopped
+    networks:
+      - default
     logging:
       options:
         max-size: "10m"
         max-file: "3"
         
+
   # DB for Grafana
   postgres:
     container_name: postgres

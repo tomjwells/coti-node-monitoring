@@ -1235,8 +1235,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1609,6 +1608,7 @@
     }
   ],
   "refresh": "1m",
+  "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -1623,6 +1623,6 @@
   "timezone": "",
   "title": "Coti Public",
   "uid": "4iADwvaA4z",
-  "version": 10,
+  "version": 15,
   "weekStart": ""
 }
