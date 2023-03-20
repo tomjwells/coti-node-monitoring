@@ -48,7 +48,7 @@ To do this, you can either add a wildcard subdomain (`*`), or the specific subdo
 
 ## 1. Clone the Repository
 
-To keep things organized, I suggest having your Coti node located under the directory `~/coti-node`. We will install the monitoring setup alongside that directory, under `~/coti-node-monitoring`. From your home directory, run
+I suggest having your Coti node located under the directory `~/coti-node`. We will install the monitoring setup alongside that directory, under `~/coti-node-monitoring`. From your home directory, run
 
 ```
 git clone https://github.com/tomjwells/coti-node-monitoring.git && cd coti-node-monitoring
