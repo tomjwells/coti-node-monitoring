@@ -209,9 +209,5 @@ Stay Coti. ️‍🔥
 <br />
 <br />
 
-If you have questions, I hang out on twitter <a href="https://twitter.com/tomjwells">@tomjwells</a>. Come and say hi and lets talk Coti!
-<br />
-<br />
-<br />
+<p align="center"><a href="https://atomnode.tomoswells.com" target="_blank"><img src="https://pay.coti.io/nodes/atomnode.png" style="width: 200px"></a></p>
 
-<p align="center"><a href="https://atomnode.tomoswells.com" target="_blank"><img src="https://cdn.discordapp.com/avatars/343604221331111946/65130831872c9daabdb0d803ce27e594.webp?size=240"></a></p>
