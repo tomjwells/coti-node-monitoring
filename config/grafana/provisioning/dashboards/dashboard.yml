@@ -1,11 +1,22 @@
 apiVersion: 1
 
 providers:
-  - name: 'Loki'
-    orgId: 1
-    folder: ''
+  - name: Public
+    folder: 'Public'
     type: file
-    disableDeletion: false
+    orgId: 1
+    disableDeletion: true
     editable: true
+    # allowUiUpdates: true # Allows saving of changes (but they won't be saved to the provisioned source)
     options:
-      path: /etc/grafana/provisioning/dashboards
+      path: /etc/grafana/provisioning/dashboards/public
+
+  - name: Private
+    folder: 'Private'
+    type: file
+    orgId: 1
+    disableDeletion: true
+    editable: true
+    # allowUiUpdates: true # Allows saving of changes (but they won't be saved to the provisioned source)
+    options:
+      path: /etc/grafana/provisioning/dashboards/private
